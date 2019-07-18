@@ -10,6 +10,9 @@ public class MoveCube : MonoBehaviour
 
     private Vector3 moveVector;
 
+    private int state;
+  
+
     private void Start()
     {
         rigidBody = gameObject.GetComponent<Rigidbody>();

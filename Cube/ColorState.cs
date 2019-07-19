@@ -1,0 +1,43 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class ColorState : MonoBehaviour
+{
+    public List<IColor> cubeColors = new List<IColor>();
+    private IColor curColor;
+
+    [SerializeField]
+    private Image colorImage;
+
+    private string colorString;
+
+    public IColor CurColor {
+        get => curColor;
+        set {
+            curColor = value;
+            colorImage.color = curColor.GetColor();
+            colorString = curColor.ToString();
+        }
+
+    }
+
+    private void Awake()
+    {
+        cubeColors.Add (new Red());
+        cubeColors.Add(new Magenda());
+        cubeColors.Add(new Oragne());
+        cubeColors.Add(new Yellow());
+        cubeColors.Add(new Blue());
+        cubeColors.Add(new Lime());
+
+        cubeColors[0].Init(cubeColors[1], cubeColors[4], cubeColors[3], cubeColors[5]);
+        cubeColors[1].Init(cubeColors[3], cubeColors[5], cubeColors[0], cubeColors[2]);
+        cubeColors[2].Init(cubeColors[1], cubeColors[4], cubeColors[5], cubeColors[3]);
+        cubeColors[3].Init(cubeColors[4], cubeColors[1], cubeColors[2], cubeColors[0]);
+        cubeColors[4].Init(cubeColors[5], cubeColors[3], cubeColors[0], cubeColors[2]);
+        cubeColors[5].Init(cubeColors[1], cubeColors[4], cubeColors[0], cubeColors[2]);
+
+        CurColor = cubeColors[5];
+    }
+}

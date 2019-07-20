@@ -67,7 +67,7 @@ public class MoveCube : MonoBehaviour
         {
             cube.transform.Rotate(moveVector,Space.World);
             cube.transform.Translate(moveForward / 30,Space.World);
-            yield return new WaitForSecondsRealtime(0.01f);
+            yield return new WaitForSecondsRealtime(0.05f);
         }
         moveForward = new Vector3(0, 0, 0);
         moveVector = new Vector3(0,0,0);

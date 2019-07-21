@@ -3,24 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Red : IColor
+public class CubeColor : MonoBehaviour
 {
-    private string color = "Red";
-    public string Colors { get => color; }
     public IColor up, down, left, right;
-    public void Init(IColor up, IColor down, IColor left, IColor right)
-    {
-        this.up = up;
-        this.down = down;
-        this.left = left;
-        this.right = right;
-    }
-
-    public Color GetColor()
-    {
-        return Color.red;
-    }
-
     public IColor Up()
     {
         return up;
@@ -43,11 +28,31 @@ public class Red : IColor
 }
 
 
-public class Magenda : IColor
+public class Red : CubeColor,IColor
+{
+    private string color = "Red";
+    public string Colors { get => color; }
+
+    public void Init(IColor up, IColor down, IColor left, IColor right)
+    {
+        this.up = up;
+        this.down = down;
+        this.left = left;
+        this.right = right;
+    }
+
+    public Color GetColor()
+    {
+        return Color.red;
+    }
+
+}
+
+
+public class Magenda : CubeColor, IColor
 {
     private string color = "Magenda";
     public string Colors { get => color; }
-    public IColor up, down, left, right;
 
     public void Init(IColor up, IColor down, IColor left, IColor right)
     {
@@ -62,33 +67,15 @@ public class Magenda : IColor
         return Color.magenta;
     }
 
-    public IColor Up()
-    {
-        return up;
-    }
 
-    public IColor Down()
-    {
-        return down;
-    }
-
-    public IColor Left()
-    {
-        return left;
-    }
-
-    public IColor Right()
-    {
-        return right;
-    }
 }
 
 
-public class Oragne : IColor
+public class Oragne : CubeColor, IColor
 {
     private string color = "Red";
     public string Colors { get => color; }
-    public IColor up, down, left, right;
+
     public void Init(IColor up, IColor down, IColor left, IColor right)
     {
         this.up = up;
@@ -103,33 +90,15 @@ public class Oragne : IColor
         return Color.black;
     }
 
-    public IColor Up()
-    {
-        return up;
-    }
 
-    public IColor Down()
-    {
-        return down;
-    }
-
-    public IColor Left()
-    {
-        return left;
-    }
-
-    public IColor Right()
-    {
-        return right;
-    }
 }
 
 
-public class Yellow : IColor
+public class Yellow : CubeColor, IColor
 {
     private string color = "Red";
     public string Colors { get => color; }
-    public IColor up, down, left, right;
+
     public void Init(IColor up, IColor down, IColor left, IColor right)
     {
         this.up = up;
@@ -143,33 +112,14 @@ public class Yellow : IColor
         return Color.yellow;
     }
 
-    public IColor Up()
-    {
-        return up;
-    }
-
-    public IColor Down()
-    {
-        return down;
-    }
-
-    public IColor Left()
-    {
-        return left;
-    }
-
-    public IColor Right()
-    {
-        return right;
-    }
 }
 
 
-public class Blue : IColor
+public class Blue : CubeColor, IColor
 {
     private string color = "Red";
     public string Colors { get => color; }
-    public IColor up, down, left, right;
+ 
     public void Init(IColor up, IColor down, IColor left, IColor right)
     {
         this.up = up;
@@ -184,33 +134,14 @@ public class Blue : IColor
         return Color.blue;
     }
 
-    public IColor Up()
-    {
-        return up;
-    }
-
-    public IColor Down()
-    {
-        return down;
-    }
-
-    public IColor Left()
-    {
-        return left;
-    }
-
-    public IColor Right()
-    {
-        return right;
-    }
 }
 
 
-public class Lime : IColor
+public class Lime : CubeColor, IColor
 {
     private string color = "Red";
     public string Colors { get => color; }
-    public IColor up, down, left, right;
+    
     public void Init(IColor up, IColor down, IColor left, IColor right)
     {
         this.up = up;
@@ -223,24 +154,6 @@ public class Lime : IColor
     {
         return Color.green;
     }
-    public IColor Up()
-    {
-        return up;
-    }
 
-    public IColor Down()
-    {
-        return down;
-    }
-
-    public IColor Left()
-    {
-        return left;
-    }
-
-    public IColor Right()
-    {
-        return right;
-    }
 }
 

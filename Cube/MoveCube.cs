@@ -61,8 +61,6 @@ public class MoveCube : MonoBehaviour
 
     private IEnumerator Move()
     {
-
-
         for (int i = 0; i < 30; i++)
         {
             cube.transform.Rotate(moveVector,Space.World);

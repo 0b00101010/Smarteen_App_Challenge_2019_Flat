@@ -11,7 +11,7 @@ public class MoveCube : MonoBehaviour
     private Vector3 moveVector;
 
     private Vector3 moveForward;
-
+     
     private int state;
     private ColorState colorState;
 
@@ -23,6 +23,7 @@ public class MoveCube : MonoBehaviour
 
     private void FixedUpdate()
     {
+#if UNITY_EDITOR_OSX
         if(Input.GetKeyDown(KeyCode.A))
         {
             moveVector.z = 3;
@@ -56,7 +57,7 @@ public class MoveCube : MonoBehaviour
             colorState.CurColor = colorState.CurColor.Down();
 
         }
-
+#endif
     }
 
     private IEnumerator Move()

@@ -25,6 +25,32 @@ public class CubeColor : MonoBehaviour
     {
         return right;
     }
+
+    public void RotateLeft()
+    {
+        IColor temp = up;
+        up = left;
+        left = down;
+        down = right;
+        right = temp;
+    }
+
+    public void RotateRight()
+    {
+        IColor temp = up;
+        up = right;
+        right = down;
+        down = left;
+        left = temp;
+    }
+
+    public void ColorDebug()
+    {
+        //Debug.Log("up    : " + up.);
+        //Debug.Log("down  : " +  down.GetColor().ToString());
+        //Debug.Log("left  : " +  left.GetColor().ToString());
+        //Debug.Log("right : " +  right.GetColor().ToString());
+    }
 }
 
 
@@ -71,9 +97,9 @@ public class Magenda : CubeColor, IColor
 }
 
 
-public class Oragne : CubeColor, IColor
+public class Orange : CubeColor, IColor
 {
-    private string color = "Red";
+    private string color = "Orange";
     public string Colors { get => color; }
 
     public void Init(IColor up, IColor down, IColor left, IColor right)
@@ -87,7 +113,7 @@ public class Oragne : CubeColor, IColor
 
     public Color GetColor()
     {
-        return Color.black;
+        return new Color(255,107,0,1);
     }
 
 
@@ -96,7 +122,7 @@ public class Oragne : CubeColor, IColor
 
 public class Yellow : CubeColor, IColor
 {
-    private string color = "Red";
+    private string color = "Yellow";
     public string Colors { get => color; }
 
     public void Init(IColor up, IColor down, IColor left, IColor right)
@@ -117,7 +143,7 @@ public class Yellow : CubeColor, IColor
 
 public class Blue : CubeColor, IColor
 {
-    private string color = "Red";
+    private string color = "Blue";
     public string Colors { get => color; }
  
     public void Init(IColor up, IColor down, IColor left, IColor right)
@@ -139,7 +165,7 @@ public class Blue : CubeColor, IColor
 
 public class Lime : CubeColor, IColor
 {
-    private string color = "Red";
+    private string color = "Lime";
     public string Colors { get => color; }
     
     public void Init(IColor up, IColor down, IColor left, IColor right)

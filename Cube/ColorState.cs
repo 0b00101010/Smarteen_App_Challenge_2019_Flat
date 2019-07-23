@@ -10,6 +10,9 @@ public class ColorState : MonoBehaviour
     [SerializeField]
     private Image colorImage;
 
+    [SerializeField]
+    private ObservColor obs;
+
     private string colorString;
 
     public IColor CurColor {
@@ -26,7 +29,7 @@ public class ColorState : MonoBehaviour
     {
         cubeColors.Add (new Red());
         cubeColors.Add(new Magenda());
-        cubeColors.Add(new Oragne());
+        cubeColors.Add(new Orange());
         cubeColors.Add(new Yellow());
         cubeColors.Add(new Blue());
         cubeColors.Add(new Lime());
@@ -39,5 +42,24 @@ public class ColorState : MonoBehaviour
         cubeColors[5].Init(cubeColors[1], cubeColors[4], cubeColors[0], cubeColors[2]);
 
         CurColor = cubeColors[5];
+    }
+
+    public void RotateRight()
+    {
+        obs.Left();
+        for(int i = 0; i < cubeColors.Count; i++)
+        {
+            cubeColors[i].RotateRight();
+        }
+    }
+
+    public void RotateLeft()
+    {
+        obs.Right();
+
+        for (int i = 0; i < cubeColors.Count; i++)
+        {
+            cubeColors[i].RotateLeft();
+        }
     }
 }

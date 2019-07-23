@@ -11,5 +11,7 @@ public interface IColor
     IColor Left();
     IColor Right();
     Color GetColor();
-
+    void RotateLeft();
+    void RotateRight();
+    void ColorDebug();
 }

@@ -8,68 +8,77 @@ public class MoveCube : MonoBehaviour
     private GameObject cube;
     private Rigidbody rigidBody;
 
-    private Vector3 moveVector;
-
-    private Vector3 moveForward;
-     
-    private int state;
     private ColorState colorState;
+
+    private int count = 90;
+
+    private int upCount = 0;
+    private int downCount = 0;
+
+    private Vector3 moveVector;
+    private Vector3 rotateVector;
 
     private void Start()
     {
         colorState = gameObject.GetComponent<ColorState>();
         rigidBody = gameObject.GetComponent<Rigidbody>();
+
+        moveVector = Vector3.zero;
+        rotateVector = Vector3.zero;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-#if UNITY_EDITOR_OSX
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            moveVector.z = 3;
-            moveForward.x = -1;
-            StartCoroutine(Move());
-            colorState.CurColor = colorState.CurColor.Left();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            moveVector.z = -3;
-            moveForward.x = 1;
-            StartCoroutine(Move());
-            colorState.CurColor = colorState.CurColor.Right();
-
-        }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            moveVector.x = 3;
-            moveForward.z = 1;
-            StartCoroutine(Move());
+            //moveVector = Vector3.forward;
+            rotateVector = Vector3.left;
             colorState.CurColor = colorState.CurColor.Up();
-
+            MoveAndRotate();
+       
+            upCount++;
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            moveVector.x = -3;
-            moveForward.z = -1;
-            StartCoroutine(Move());
+            //moveVector = Vector3.back;
+            rotateVector = Vector3.right;
             colorState.CurColor = colorState.CurColor.Down();
-
+            MoveAndRotate();
+            downCount++;
         }
-#endif
-    }
 
-    private IEnumerator Move()
-    {
-        for (int i = 0; i < 30; i++)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            cube.transform.Rotate(moveVector,Space.World);
-            cube.transform.Translate(moveForward / 30,Space.World);
-            yield return new WaitForSecondsRealtime(0.05f);
+            //moveVector = Vector3.left;
+            rotateVector = Vector3.forward;
+            colorState.CurColor = colorState.CurColor.Left();
+            MoveAndRotate();
+
+            switch(colorState.)
+
         }
-        moveForward = new Vector3(0, 0, 0);
-        moveVector = new Vector3(0,0,0);
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            //moveVector = Vector3.right;
+            rotateVector = Vector3.back;
+            colorState.CurColor = colorState.CurColor.Right();
+            MoveAndRotate();
+            
+        }
     }
+
+    private void MoveAndRotate()
+    {
+        // colorState.CurColor.ColorDebug();
+        cube.transform.Rotate(rotateVector * 90,Space.World);
+        cube.transform.Translate(moveVector, Space.World);
+
+        moveVector = Vector3.zero;
+        rotateVector = Vector3.zero;
+    }
+
+
 
 }

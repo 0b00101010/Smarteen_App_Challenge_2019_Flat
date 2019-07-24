@@ -11,6 +11,8 @@ public interface IColor
     IColor Left();
     IColor Right();
     Color GetColor();
+    void UpDownMirror();
+    void LeftRightMirror();
     void RotateLeft();
     void RotateRight();
     void ColorDebug();

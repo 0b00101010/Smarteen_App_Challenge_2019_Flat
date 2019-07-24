@@ -62,4 +62,5 @@ public class ColorState : MonoBehaviour
             cubeColors[i].RotateLeft();
         }
     }
+
 }

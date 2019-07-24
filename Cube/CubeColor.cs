@@ -34,7 +34,7 @@ public class CubeColor : MonoBehaviour
         down = right;
         right = temp;
     }
-
+        
     public void RotateRight()
     {
         IColor temp = up;
@@ -43,6 +43,22 @@ public class CubeColor : MonoBehaviour
         down = left;
         left = temp;
     }
+
+    public void LeftRightMirror()
+    {
+        IColor temp = left;
+        left = right;
+        right = temp;
+    }
+
+    public void UpDownMirror()
+    {
+        IColor temp = up;
+        up = down;
+        down = temp;
+    }
+
+
 
     public void ColorDebug()
     {
@@ -113,7 +129,7 @@ public class Orange : CubeColor, IColor
 
     public Color GetColor()
     {
-        return new Color(255,107,0,1);
+        return Color.black;
     }
 
 

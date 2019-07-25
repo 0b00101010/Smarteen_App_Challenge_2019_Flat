@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ColorState : MonoBehaviour
 {
-    public List<IColor> cubeColors = new List<IColor>();
-    private IColor curColor;
+    public List<CubeColor> cubeColors = new List<CubeColor>();
+    private CubeColor curColor;
 
     [SerializeField]
     private Image colorImage;
@@ -15,7 +15,7 @@ public class ColorState : MonoBehaviour
 
     private string colorString;
 
-    public IColor CurColor {
+    public CubeColor CurColor {
         get => curColor;
         set {
             curColor = value;
@@ -62,5 +62,6 @@ public class ColorState : MonoBehaviour
             cubeColors[i].RotateLeft();
         }
     }
+
 
 }

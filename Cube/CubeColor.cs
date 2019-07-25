@@ -5,39 +5,40 @@ using UnityEngine.UI;
 
 public class CubeColor : MonoBehaviour
 {
-    public IColor up, down, left, right;
-    public IColor Up()
+    public CubeColor up, down, left, right;
+
+    public CubeColor Up()
     {
         return up;
     }
 
-    public IColor Down()
+    public CubeColor Down()
     {
         return down;
     }
 
-    public IColor Left()
+    public CubeColor Left()
     {
         return left;
     }
 
-    public IColor Right()
+    public CubeColor Right()
     {
         return right;
     }
 
     public void RotateLeft()
     {
-        IColor temp = up;
+        CubeColor temp = up;
         up = left;
         left = down;
         down = right;
         right = temp;
     }
-        
+
     public void RotateRight()
     {
-        IColor temp = up;
+        CubeColor temp = up;
         up = right;
         right = down;
         down = left;
@@ -46,36 +47,37 @@ public class CubeColor : MonoBehaviour
 
     public void LeftRightMirror()
     {
-        IColor temp = left;
-        left = right;
-        right = temp;
+        CubeColor temp = left;
+        left.left = right.left;
+        left.right = right.right;
+
+        right.left = temp.left;
+        right.right = temp.right;
     }
 
     public void UpDownMirror()
     {
-        IColor temp = up;
-        up = down;
-        down = temp;
+        CubeColor temp = up;
+
+        up.up = down.up;
+        up.down = down.down;
+
+        down.up = temp.up;
+        down.down = temp.down;
     }
 
-
-
-    public void ColorDebug()
-    {
-        //Debug.Log("up    : " + up.);
-        //Debug.Log("down  : " +  down.GetColor().ToString());
-        //Debug.Log("left  : " +  left.GetColor().ToString());
-        //Debug.Log("right : " +  right.GetColor().ToString());
-    }
+    public virtual void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right) { }
+    public virtual Color GetColor() { return Color.white; }
+  
 }
 
 
-public class Red : CubeColor,IColor
+public class Red : CubeColor
 {
     private string color = "Red";
     public string Colors { get => color; }
 
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -83,7 +85,7 @@ public class Red : CubeColor,IColor
         this.right = right;
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.red;
     }
@@ -91,12 +93,12 @@ public class Red : CubeColor,IColor
 }
 
 
-public class Magenda : CubeColor, IColor
+public class Magenda : CubeColor
 {
     private string color = "Magenda";
     public string Colors { get => color; }
 
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -104,7 +106,7 @@ public class Magenda : CubeColor, IColor
         this.right = right;
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.magenta;
     }
@@ -113,12 +115,12 @@ public class Magenda : CubeColor, IColor
 }
 
 
-public class Orange : CubeColor, IColor
+public class Orange : CubeColor
 {
     private string color = "Orange";
     public string Colors { get => color; }
 
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -127,7 +129,7 @@ public class Orange : CubeColor, IColor
     }
 
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.black;
     }
@@ -136,12 +138,12 @@ public class Orange : CubeColor, IColor
 }
 
 
-public class Yellow : CubeColor, IColor
+public class Yellow : CubeColor
 {
     private string color = "Yellow";
     public string Colors { get => color; }
 
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -149,7 +151,7 @@ public class Yellow : CubeColor, IColor
         this.right = right;
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.yellow;
     }
@@ -157,12 +159,12 @@ public class Yellow : CubeColor, IColor
 }
 
 
-public class Blue : CubeColor, IColor
+public class Blue : CubeColor
 {
     private string color = "Blue";
     public string Colors { get => color; }
  
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -171,7 +173,7 @@ public class Blue : CubeColor, IColor
     }
 
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.blue;
     }
@@ -179,12 +181,12 @@ public class Blue : CubeColor, IColor
 }
 
 
-public class Lime : CubeColor, IColor
+public class Lime : CubeColor
 {
     private string color = "Lime";
     public string Colors { get => color; }
     
-    public void Init(IColor up, IColor down, IColor left, IColor right)
+    public override void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right)
     {
         this.up = up;
         this.down = down;
@@ -192,7 +194,7 @@ public class Lime : CubeColor, IColor
         this.right = right;
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return Color.green;
     }

@@ -34,13 +34,13 @@ public class MoveCube : MonoBehaviour
             MoveAndRotate();
 
 
-            //if (colorState.CurColor.Down().GetColor().Equals(Color.yellow))
-            //{
-            //    colorState.CurColor.LeftRightMirror();
-            //    colorState.CurColor.Left().Left().LeftRightMirror();
-            //    colorState.CurColor.Left().LeftRightMirror();
-            //    colorState.CurColor.Right().LeftRightMirror();
-            //}
+            if (colorState.CurColor.Up().GetColor().Equals(Color.yellow))
+            {
+               colorState.CurColor.LeftRightMirror();
+               colorState.CurColor.Left().LeftRightMirror();
+               colorState.CurColor.Right().LeftRightMirror();
+                colorState.CurColor.Left().Left().LeftRightMirror();
+            }
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Up().GetColor());
 
         }
@@ -51,13 +51,15 @@ public class MoveCube : MonoBehaviour
             rotateVector = Vector3.right;
             MoveAndRotate();
 
-            //if (colorState.CurColor.Down().GetColor().Equals(Color.yellow))
-            //{
-            //    colorState.CurColor.LeftRightMirror();
-            //    colorState.CurColor.Left().Left().LeftRightMirror();
-            //    colorState.CurColor.Left().LeftRightMirror();
-            //    colorState.CurColor.Right().LeftRightMirror();
-            //}
+            if (colorState.CurColor.Down().GetColor().Equals(Color.yellow))
+            {
+                colorState.CurColor.LeftRightMirror();
+                colorState.CurColor.Left().LeftRightMirror();
+                colorState.CurColor.Right().LeftRightMirror();
+                colorState.CurColor.Left().Left().LeftRightMirror();
+
+
+            }
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Down().GetColor());
 
         }
@@ -68,13 +70,15 @@ public class MoveCube : MonoBehaviour
             rotateVector = Vector3.forward;
             MoveAndRotate();
 
-            //if (colorState.CurColor.Right().GetColor().Equals(Color.yellow))
-            //{
-            //    colorState.CurColor.UpDownMirror();
-            //    colorState.CurColor.Up().Up().UpDownMirror();
-            //    colorState.CurColor.Up().UpDownMirror();
-            //    colorState.CurColor.Down().UpDownMirror();
-            //}
+            if (colorState.CurColor.Right().GetColor().Equals(Color.yellow))
+            {
+                colorState.CurColor.UpDownMirror();
+                colorState.CurColor.Up().UpDownMirror();
+                colorState.CurColor.Down().UpDownMirror();
+                colorState.CurColor.Up().Up().UpDownMirror();
+            }
+
+
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Left().GetColor());
 
         }
@@ -86,13 +90,13 @@ public class MoveCube : MonoBehaviour
             MoveAndRotate();
 
 
-            //if (colorState.CurColor.Left().GetColor().Equals(Color.yellow))
-            //{
-            //    colorState.CurColor.UpDownMirror();
-            //    colorState.CurColor.Up().Up().UpDownMirror();
-            //    colorState.CurColor.Up().UpDownMirror();
-            //    colorState.CurColor.Down().UpDownMirror();
-            //}
+            if (colorState.CurColor.Left().GetColor().Equals(Color.yellow))
+            {
+                colorState.CurColor.UpDownMirror();
+                colorState.CurColor.Up().UpDownMirror();
+                colorState.CurColor.Down().UpDownMirror();
+                colorState.CurColor.Up().Up().UpDownMirror();
+            }
 
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Right().GetColor());
 

@@ -48,25 +48,24 @@ public class CubeColor : MonoBehaviour
     public void LeftRightMirror()
     {
         CubeColor temp = left;
-        left.left = right.left;
-        left.right = right.right;
+		left = right;
+		right = temp;
 
-        right.left = temp.left;
-        right.right = temp.right;
+		Debug.Log("Mirror_LR");
     }
 
     public void UpDownMirror()
     {
         CubeColor temp = up;
 
-        up.up = down.up;
-        up.down = down.down;
+		up = down;
+		down = temp;
 
-        down.up = temp.up;
-        down.down = temp.down;
-    }
+		Debug.Log("Mirror_UD");
 
-    public virtual void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right) { }
+	}
+
+	public virtual void Init(CubeColor up, CubeColor down, CubeColor left, CubeColor right) { }
     public virtual Color GetColor() { return Color.white; }
   
 }

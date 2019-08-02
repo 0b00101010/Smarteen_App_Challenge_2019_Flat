@@ -36,11 +36,13 @@ public class MoveCube : MonoBehaviour
 
             if (colorState.CurColor.Up().GetColor().Equals(Color.yellow))
             {
-               colorState.CurColor.LeftRightMirror();
-               colorState.CurColor.Left().LeftRightMirror();
-               colorState.CurColor.Right().LeftRightMirror();
-                colorState.CurColor.Left().Left().LeftRightMirror();
+                colorState.CurColor.Up().LeftRightMirror();
+                colorState.CurColor.Up().Left().LeftRightMirror();
+                colorState.CurColor.Up().Right().LeftRightMirror();
+                colorState.CurColor.Up().Left().Left().LeftRightMirror();
+
             }
+
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Up().GetColor());
 
         }
@@ -49,14 +51,15 @@ public class MoveCube : MonoBehaviour
         {
             //moveVector = Vector3.back;
             rotateVector = Vector3.right;
-            MoveAndRotate();
+            MoveAndRotate();    
 
             if (colorState.CurColor.Down().GetColor().Equals(Color.yellow))
             {
-                colorState.CurColor.LeftRightMirror();
-                colorState.CurColor.Left().LeftRightMirror();
-                colorState.CurColor.Right().LeftRightMirror();
-                colorState.CurColor.Left().Left().LeftRightMirror();
+
+                colorState.CurColor.Down().LeftRightMirror();
+                colorState.CurColor.Down().Left().LeftRightMirror();
+                colorState.CurColor.Down().Right().LeftRightMirror();
+                colorState.CurColor.Down().Left().Left().LeftRightMirror();
 
 
             }
@@ -72,10 +75,10 @@ public class MoveCube : MonoBehaviour
 
             if (colorState.CurColor.Right().GetColor().Equals(Color.yellow))
             {
-                colorState.CurColor.UpDownMirror();
-                colorState.CurColor.Up().UpDownMirror();
-                colorState.CurColor.Down().UpDownMirror();
-                colorState.CurColor.Up().Up().UpDownMirror();
+                colorState.CurColor.Right().UpDownMirror();
+                colorState.CurColor.Right().Up().UpDownMirror();
+                colorState.CurColor.Right().Down().UpDownMirror();
+                colorState.CurColor.Right().Up().Up().UpDownMirror();
             }
 
 
@@ -92,10 +95,10 @@ public class MoveCube : MonoBehaviour
 
             if (colorState.CurColor.Left().GetColor().Equals(Color.yellow))
             {
-                colorState.CurColor.UpDownMirror();
-                colorState.CurColor.Up().UpDownMirror();
-                colorState.CurColor.Down().UpDownMirror();
-                colorState.CurColor.Up().Up().UpDownMirror();
+                colorState.CurColor.Left().Up().UpDownMirror();
+                colorState.CurColor.Left().Down().UpDownMirror();
+                colorState.CurColor.Left().Up().Up().UpDownMirror();
+                colorState.CurColor.Left().UpDownMirror();
             }
 
             ComparerColor(colorState.CurColor.GetColor(), colorState.CurColor.Right().GetColor());

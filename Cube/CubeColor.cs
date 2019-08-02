@@ -50,18 +50,13 @@ public class CubeColor : MonoBehaviour
         CubeColor temp = left;
 		left = right;
 		right = temp;
-
-		Debug.Log("Mirror_LR");
     }
 
     public void UpDownMirror()
     {
         CubeColor temp = up;
-
 		up = down;
 		down = temp;
-
-		Debug.Log("Mirror_UD");
 
 	}
 

@@ -50,6 +50,17 @@ public class ColorState : MonoBehaviour
         }
     }
 
+    public void MirrorLR()
+    {
+        curColor.LeftRightMirror();
+    }
+
+    public void MirrorUD()
+    {
+        curColor.UpDownMirror();
+
+    }
+
     public void RotateLeft()
     {
         

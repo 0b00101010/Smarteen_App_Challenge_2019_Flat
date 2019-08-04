@@ -35,4 +35,6 @@ public class ClolorButtons : InteractionObject
         for (int i = 0; i < walls.Length; i++)
             walls[i].SetActive(false);
     }
+
+    private void DestroyWall() { }
 }

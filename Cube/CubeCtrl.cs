@@ -7,8 +7,15 @@ public class CubeCtrl : MonoBehaviour
     [SerializeField]
     private GameObject gameCube;
 
+    private Ray ray;
+
     private Vector3 rotateVector;
     private Vector3 moveVector;
+
+    private void Start()
+    {
+        ray.origin = gameObject.transform.position;
+    }
 
     private void Update()
     {
@@ -45,15 +52,34 @@ public class CubeCtrl : MonoBehaviour
         }
     }
 
+    private bool DetectedWall()
+    {
+       ray.origin = gameObject.transform.position;
+       ray.direction = moveVector;
+       RaycastHit hit;
+       if(Physics.Raycast(ray,out hit, 1, LayerMask.GetMask("Wall")))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     private void MoveAndRotate()
     {
-
+        if (DetectedWall())
+            return;
         // colorState.CurColor.ColorDebug();
         gameCube.transform.Rotate(rotateVector * 90, Space.World);
         gameObject.transform.Translate(moveVector, Space.World);
 
         moveVector = Vector3.zero;
         rotateVector = Vector3.zero;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(ray.origin,ray.direction);
     }
 }

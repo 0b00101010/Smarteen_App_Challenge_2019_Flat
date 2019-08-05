@@ -18,23 +18,21 @@ public class InteractionObject : MonoBehaviour
 
     protected int GetColorIndex()
     {
-        Debug.Log("asdfasdf");
         RaycastHit hit;
-        //if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Cube")))
+
+       if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Cube")))
         {
             if (hit.collider != null && hit.collider.CompareTag("Side"))
             {
-                Debug.Log(hit.collider.transform.name);
                 return hit.collider.GetComponent<CubeColor>().SideColor;
             }
-            Debug.Log(hit.collider.transform.name);
         }
         return -1;
     }
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.blue;
         Gizmos.DrawRay(ray.origin,ray.direction);
     }
 }

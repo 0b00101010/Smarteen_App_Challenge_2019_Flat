@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class StageManager : MonoBehaviour
 {
+    public static StageManager instance;
+    public MaterialsCtrl materialsCtrl; 
 
-    private GameObject stageCube;
-    private float rotateSensitivity = 0.5f;
-
-    private void Start()
-    {
-
+    private void Awake(){
+        if(instance == null)
+            instance = this;
     }
 
     private void Update()

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour
+public class Wall : InteractionObject
 {
-    [Header("Color Number")]
-    [SerializeField]
-    private int colorNumber;
-
-    public int ColorNumber { get => colorNumber; }
 }

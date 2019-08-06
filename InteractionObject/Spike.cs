@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Spike : InteractionObject
 {
-
-    [Header("Color Number")]
-    [SerializeField]
-    private int colorNumber;
-
     private bool isCollision = false;
 
     private int otherObjectColor;

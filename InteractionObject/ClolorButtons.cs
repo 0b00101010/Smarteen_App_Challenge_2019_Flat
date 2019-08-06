@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class ClolorButtons : InteractionObject
 {
-
-    [Header("Color Number")]
-    [SerializeField]
-    private int colorNumber;
-
     [Header("Walls")]
     [SerializeField]
     private List<GameObject> walls = new List<GameObject>();
@@ -25,31 +20,8 @@ public class ClolorButtons : InteractionObject
 
         for(int i =0; i < temp.Length; i++)
         {
-            if (temp[i].GetComponent<Wall>().ColorNumber.Equals(colorNumber))
+            if (temp[i].GetComponent<Wall>().colorNumber.Equals(colorNumber))
                 walls.Add(temp[i]);
-        }
-
-        switch (gameObject.GetComponent<Material>().name)
-        {
-            case "Lime":
-                colorNumber = 0;
-                break;
-            case "Blue":
-                colorNumber = 1;
-                break;
-            case "Red":
-                colorNumber = 2;
-                break;
-            case "Magenta":
-                colorNumber = 3;
-                break;
-            case "Orange":
-                colorNumber = 4;
-                break;
-            case "Yellow":
-                colorNumber = 5;
-                break;
-
         }
     }
 

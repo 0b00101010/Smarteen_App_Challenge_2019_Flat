@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Portal : InteractionObject
 {
-    [Header("Color Number")]
-    [SerializeField]
-    private int colorNumber;
-
     private int otherObjectColor;
 
     private bool isCollision = false;

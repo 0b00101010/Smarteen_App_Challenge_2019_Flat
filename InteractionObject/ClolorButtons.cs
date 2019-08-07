@@ -7,7 +7,7 @@ public class ClolorButtons : InteractionObject
     [Header("Walls")]
     [SerializeField]
     private List<GameObject> walls = new List<GameObject>();
-
+    private TileBlock underBlock;
     private bool isInvisible = false;
 
     private int otherObjectColor;
@@ -34,6 +34,10 @@ public class ClolorButtons : InteractionObject
             isCollision = true;
             StartCoroutine(CollisionWait());
         }
+
+        if(underBlock == null && other.transform.CompareTag("Tile")){
+            underBlock = other.GetComponent<TileBlock>();
+        }
     }
 
     private IEnumerator CollisionWait()
@@ -57,12 +61,17 @@ public class ClolorButtons : InteractionObject
         {
             for (int i = 0; i < walls.Count; i++)
                 walls[i].SetActive(false);
+
+            if(underBlock != null)
+                underBlock.ChangeMaterials(colorNumber);
         }
         else
         {
             for (int i = 0; i < walls.Count; i++)
                 walls[i].SetActive(true);
 
+            if(underBlock != null)
+                underBlock.ChangeMaterials(6);
         }
 
         isInvisible = !isInvisible;

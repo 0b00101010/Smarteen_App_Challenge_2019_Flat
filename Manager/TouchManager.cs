@@ -18,7 +18,7 @@ public class TouchManager : MonoBehaviour
     // Update is called once per frame
     public void Awake()
     {
-        minSwipeDist = Mathf.Max(Screen.width, Screen.height) / 10f;
+        minSwipeDist = Mathf.Max(Screen.width, Screen.height) / 4f;
     }
 
     public void ProcessMobileInput()

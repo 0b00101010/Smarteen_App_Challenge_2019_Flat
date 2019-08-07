@@ -10,16 +10,19 @@ public class InteractionObject : MonoBehaviour
     [SerializeField]
     public int colorNumber;
 
+    private MaterialsCtrl materialsCtrl;
+
     private int[] colorNumbers = {0,1,2,3,4,5};
     
     private Ray ray = new Ray();
 
     private void Start()
     {
+        materialsCtrl = gameObject.GetComponent<MaterialsCtrl>();
         Vector3 pos = new Vector3(gameObject.transform.position.x ,-2, gameObject.transform.position.z);
         ray.origin = pos;
         ray.direction = Vector3.up;
-        gameObject.GetComponent<MeshRenderer>().material = StageManager.instance.materialsCtrl.GetColorMaterials(colorNumber);
+        gameObject.transform.GetComponent<MeshRenderer>().material = materialsCtrl.GetColorMaterials(colorNumber);
     }
 
     protected virtual void Interaction() { }

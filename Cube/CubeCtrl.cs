@@ -8,7 +8,7 @@ public class CubeCtrl : MonoBehaviour
     private GameObject gameCube;
 
     private Ray ray;
-
+    private bool isMove = false;
     private Vector3 rotateVector;
     private Vector3 moveVector;
 
@@ -19,18 +19,25 @@ public class CubeCtrl : MonoBehaviour
 
     private void Update()
     {
+
+        if(isMove)
+            return;
+
+        // #if UNITY_STANDALONE_OSX
         if (Input.GetKeyDown(KeyCode.W))
         {
             moveVector = Vector3.forward;
-            rotateVector = Vector3.right;   
-            MoveAndRotate();
+            rotateVector = Vector3.right;
+            isMove = true;           
+            StartCoroutine(MoveAndRotate());
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
             moveVector = Vector3.back;
             rotateVector = Vector3.left;
-            MoveAndRotate();      
+            isMove = true;        
+            StartCoroutine(MoveAndRotate());
 
         }
 
@@ -38,18 +45,49 @@ public class CubeCtrl : MonoBehaviour
         {
             moveVector = Vector3.left;
             rotateVector = Vector3.forward;
-            MoveAndRotate();
-
-
+            isMove = true;        
+            StartCoroutine(MoveAndRotate());
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
             moveVector = Vector3.right;
             rotateVector = Vector3.back;
-            MoveAndRotate();
+            isMove = true;        
+            StartCoroutine(MoveAndRotate());
+        }
+
+        // #endif
+
+        // #if UNITY_ANDROID
+        if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
+            moveVector = Vector3.forward;
+            rotateVector = Vector3.right;   
+            isMove = true;
+            StartCoroutine(MoveAndRotate());
+        }
+        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
+             moveVector = Vector3.back;
+            rotateVector = Vector3.left;
+            isMove = true;
+            StartCoroutine(MoveAndRotate());
 
         }
+        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
+             moveVector = Vector3.left;
+            rotateVector = Vector3.forward;
+            isMove = true;            
+            StartCoroutine(MoveAndRotate());
+
+        }
+        else if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
+            moveVector = Vector3.right;
+            rotateVector = Vector3.back;
+            isMove = true;
+            StartCoroutine(MoveAndRotate());
+            
+        }
+        // #endif
     }
 
     private bool DetectedWall()
@@ -64,15 +102,21 @@ public class CubeCtrl : MonoBehaviour
 
         return false;
     }
-
-    private void MoveAndRotate()
+    private IEnumerator MoveAndRotate()
     {
-        if (DetectedWall())
-            return;
+        if (!DetectedWall()){
         // colorState.CurColor.ColorDebug();
-        gameCube.transform.Rotate(rotateVector * 90, Space.World);
-        gameObject.transform.Translate(moveVector, Space.World);
+            for(int i  = 0 ; i < 30; i++){
+                gameCube.transform.Rotate(rotateVector * 3, Space.World);
+                gameObject.transform.Translate(moveVector / 30, Space.World);
+                yield return null;
+            }
+            isMove = false;
 
+        }
+        else {
+            isMove = false;
+        }
         moveVector = Vector3.zero;
         rotateVector = Vector3.zero;
     }

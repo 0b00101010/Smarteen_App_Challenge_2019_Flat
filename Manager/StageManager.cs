@@ -9,7 +9,9 @@ public class StageManager : MonoBehaviour
     
     [SerializeField]
     private Image backgroundImage;
-    
+    [SerializeField]
+    private Image blackImage;
+
     private void Awake(){
         if(instance == null)
             instance = this;
@@ -21,6 +23,8 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
+
+        StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
     }
 
     private Material GetResoueceMaterials(int index){
@@ -51,4 +55,9 @@ public class StageManager : MonoBehaviour
 
     }
 
+
+    [Button("GameEnd")]
+    public void GameEnd(){
+        StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
+    }
 }

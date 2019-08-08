@@ -19,9 +19,9 @@ public class MapPhasing : MonoBehaviour
         }
 
         // for(int i =0; i < mapDatas.Count; i++){
-        //     str = mapDatas[i].Split(cutChar);
+        //     string[] temp = mapDatas[i].Split(cutChar);
         //     z = 0;
-        //     for(int j = 0; i < str.Length; j++){
+        //     for(int j = 0; i < temp.Length; j++){
         //         Debug.Log(x+",0,"+z);
         //         z++;
         //     }

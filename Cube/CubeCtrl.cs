@@ -106,9 +106,9 @@ public class CubeCtrl : MonoBehaviour
     {
         if (!DetectedWall()){
         // colorState.CurColor.ColorDebug();
-            for(int i  = 0 ; i < 30; i++){
-                gameCube.transform.Rotate(rotateVector * 3, Space.World);
-                gameObject.transform.Translate(moveVector / 30, Space.World);
+            for(int i  = 0 ; i < 10; i++){
+                gameCube.transform.Rotate(rotateVector * 9, Space.World);
+                gameObject.transform.Translate(moveVector / 10, Space.World);
                 yield return null;
             }
             isMove = false;

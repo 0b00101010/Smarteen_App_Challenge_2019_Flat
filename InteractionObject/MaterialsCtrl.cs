@@ -17,7 +17,6 @@ public class MaterialsCtrl : MonoBehaviour
         materials.Add(Resources.Load<Material>("StageObject/" + GameManager.instance.nextRound + "/Tile/Materials/Orange"));
         materials.Add(Resources.Load<Material>("StageObject/" + GameManager.instance.nextRound + "/Tile/Materials/Yellow"));
         materials.Add(Resources.Load<Material>("StageObject/" + GameManager.instance.nextRound + "/Tile/Materials/White"));
-
     }
 
     public Material GetColorMaterials(int index)

@@ -24,7 +24,7 @@ public class StageManager : MonoBehaviour
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
 
-        StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
+        // StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
     }
 
     private Material GetResoueceMaterials(int index){
@@ -50,14 +50,10 @@ public class StageManager : MonoBehaviour
         }
         return null;
     }
-    private void Update()
-    {
-
-    }
 
 
     [Button("GameEnd")]
     public void GameEnd(){
-        StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
+        // StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
     }
 }

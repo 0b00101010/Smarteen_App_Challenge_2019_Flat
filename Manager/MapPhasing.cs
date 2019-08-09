@@ -10,7 +10,19 @@ public class MapPhasing : MonoBehaviour
     private int x = 0;
     private int z = 0;
 
+    private GameObject button;
+    private GameObject tile;
+    private GameObject wall;
+
+    [SerializeField]
+    private GameObject invisibleWall;
+    [SerializeField]
+    private GameObject cube;
+ 
     private void Start(){
+
+        tile = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Tile/Tile");
+
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
         string[] str = mapDataFile.text.Split('\n');
         
@@ -18,17 +30,19 @@ public class MapPhasing : MonoBehaviour
             mapDatas.Add(str[i]);
         }
 
-        // for(int i =0; i < mapDatas.Count; i++){
-        //     string[] temp = mapDatas[i].Split(cutChar);
-        //     z = 0;
-        //     for(int j = 0; i < temp.Length; j++){
-        //         Debug.Log(x+",0,"+z);
-        //         z++;
-        //     }
-        //     x--;
-        // }
+        for(int i = 0 ; i< mapDatas.Count; i++){
+            str = mapDatas[i].Split(cutChar);
+            x--;
+            for(int j = 0 ; j < str.Length; j++){
+                Instantiate(tile,new Vector3(x,0,z),Quaternion.identity);        
+                z++;
+            }
+            z = 0;
+        }        
 
         
+
+
         // for문을 돌려서 ','로 각각 문자 분리
         // 0,targetPos,0 좌표 점점 증가
         

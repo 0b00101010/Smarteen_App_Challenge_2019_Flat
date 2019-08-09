@@ -32,7 +32,7 @@ public class CubeCtrl : MonoBehaviour
             StartCoroutine(MoveAndRotate());
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             moveVector = Vector3.back;
             rotateVector = Vector3.left;
@@ -41,7 +41,7 @@ public class CubeCtrl : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
             moveVector = Vector3.left;
             rotateVector = Vector3.forward;
@@ -49,7 +49,7 @@ public class CubeCtrl : MonoBehaviour
             StartCoroutine(MoveAndRotate());
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             moveVector = Vector3.right;
             rotateVector = Vector3.back;

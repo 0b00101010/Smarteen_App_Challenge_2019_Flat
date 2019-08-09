@@ -14,7 +14,6 @@ public class TileBlock : MonoBehaviour
 
     private void Start(){
         materialsCtrl = gameObject.GetComponent<MaterialsCtrl>();
-        gameObject.GetComponent<MeshRenderer>().material = materialsCtrl.GetColorMaterials(6);
     }
 
     public void ChangeMaterials(int index){

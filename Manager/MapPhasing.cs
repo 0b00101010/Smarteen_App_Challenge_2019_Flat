@@ -10,7 +10,9 @@ public class MapPhasing : MonoBehaviour
     private int x = 0;
     private int z = 0;
 
-    private GameObject button;
+    [SerializeField]
+    private Transform[] interactionObjectCreatePositions;
+    private GameObject[] interactionObject; // 0 button, 1 spike, 2 portal
     private GameObject tile;
     private GameObject wall;
 
@@ -24,23 +26,31 @@ public class MapPhasing : MonoBehaviour
         tile = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Tile/Tile");
 
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
-        string[] str = mapDataFile.text.Split('\n');
         
+        string[] str = mapDataFile.text.Split('\n');
+        string[] mapData;
+
         for(int i =0 ; i < str.Length; i++){
             mapDatas.Add(str[i]);
         }
 
         for(int i = 0 ; i< mapDatas.Count; i++){
-            str = mapDatas[i].Split(cutChar);
+            mapData = mapDatas[i].Split(cutChar);
             x--;
-            for(int j = 0 ; j < str.Length; j++){
-                Instantiate(tile,new Vector3(x,0,z),Quaternion.identity);        
+
+            for(int j = 0 ; j < mapData.Length; j++){
+                if(!IsExited(mapData[j], '_').Equals(-1)){ 
+                    string[] colorAndPosition = mapData[j].Split('_');
+                    Vector3 createPosition =  new Vector3(x,0,z);
+                    CreateInteractionObject(colorAndPosition[0],colorAndPosition[1], createPosition);
+                }else{
+                    Instantiate(tile,new Vector3(x,0,z),Quaternion.identity);        
+                }
                 z++;
             }
             z = 0;
         }        
 
-        
 
 
         // for문을 돌려서 ','로 각각 문자 분리
@@ -48,7 +58,46 @@ public class MapPhasing : MonoBehaviour
         
         // 같은 방법으로 맵 말고 오브젝트 생성 추가.
         // 앞에 수식어로 targetPos 판단
-        
     }
-    
+
+    private void CreateInteractionObject(string  objectName,  string colorName, Vector3 createPosition){
+        
+        int objectIndex = -1; // Button/0, Spike/1, Portal/2
+        int colorIndex = int.Parse(colorName);
+
+        switch(objectName){
+            case "Button":
+                objectIndex = 0;
+            break;
+
+            case "Spike":
+                objectIndex = 1;
+            break;
+
+            case "Portal":
+                objectIndex = 2;   
+            break;
+
+            default : 
+                objectIndex = -1;
+            break;
+        }
+        
+        createPosition.y = interactionObjectCreatePositions[objectIndex].position.y;
+
+        if(objectIndex != -1){
+            GameObject createdObject = Instantiate(interactionObject[objectIndex], createPosition, Quaternion.identity);
+            createdObject.GetComponent<InteractionObject>().colorNumber = colorIndex;
+
+        }else{
+            Debug.Log("Can't find object, Invalid format name.");
+        }
+
+    }
+
+    private int IsExited(string tempString, char findChar){
+        return tempString.IndexOf(findChar);
+    }
+
+    // 수식어 자르는 함수 만들기
 }

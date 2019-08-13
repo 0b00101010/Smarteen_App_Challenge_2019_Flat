@@ -12,6 +12,8 @@ public class MapPhasing : MonoBehaviour
 
     [SerializeField]
     private Transform[] interactionObjectCreatePositions;
+    [SerializeField]
+    [Tooltip("0 button, 1 spike, 2 portal")]
     private GameObject[] interactionObject; // 0 button, 1 spike, 2 portal
     private GameObject tile;
     private GameObject wall;
@@ -51,13 +53,6 @@ public class MapPhasing : MonoBehaviour
             z = 0;
         }        
 
-
-
-        // for문을 돌려서 ','로 각각 문자 분리
-        // 0,targetPos,0 좌표 점점 증가
-        
-        // 같은 방법으로 맵 말고 오브젝트 생성 추가.
-        // 앞에 수식어로 targetPos 판단
     }
 
     private void CreateInteractionObject(string  objectName,  string colorName, Vector3 createPosition){
@@ -99,5 +94,4 @@ public class MapPhasing : MonoBehaviour
         return tempString.IndexOf(findChar);
     }
 
-    // 수식어 자르는 함수 만들기
 }

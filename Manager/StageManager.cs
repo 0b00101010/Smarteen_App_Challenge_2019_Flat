@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using UnityEngine.SceneManagement;
 public class StageManager : MonoBehaviour
 {
     public static StageManager instance;
@@ -12,6 +13,11 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Image blackImage;
 
+    [SerializeField]
+    private Text textTimer;
+
+
+    private float floatTimer = 30;
     private void Awake(){
         if(instance == null)
             instance = this;
@@ -24,7 +30,16 @@ public class StageManager : MonoBehaviour
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
 
-        // StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
+        StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
+    }
+
+    private void FixedUpdate(){
+        floatTimer -= Time.deltaTime;
+        textTimer.text = floatTimer.ToString("N2");
+
+        if(floatTimer < 0){
+            GameEnd();
+        }
     }
 
     private Material GetResoueceMaterials(int index){
@@ -54,6 +69,8 @@ public class StageManager : MonoBehaviour
 
     [Button("GameEnd")]
     public void GameEnd(){
-        // StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
+        StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.2f));
+        SceneManager.LoadScene("02.InGame");
+        
     }
 }

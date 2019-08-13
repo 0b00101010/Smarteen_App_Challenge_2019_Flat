@@ -8,7 +8,6 @@ public class Spike : InteractionObject
 
     private int otherObjectColor;
 
-
     private void OnTriggerEnter(Collider other)
     {
         otherObjectColor = GetColorIndex();
@@ -19,6 +18,11 @@ public class Spike : InteractionObject
             StartCoroutine(CollisionWait());
         }
     }
+
+    protected override void Interaction(){
+        StageManager.instance.GameEnd();
+    }
+
 
     private IEnumerator CollisionWait()
     {

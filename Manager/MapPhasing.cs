@@ -35,7 +35,7 @@ public class MapPhasing : MonoBehaviour
         for(int i =0 ; i < str.Length; i++){
             mapDatas.Add(str[i]);
         }
-
+        // 블럭 오브젝트들 설치
         for(int i = 0 ; i< mapDatas.Count; i++){
             mapData = mapDatas[i].Split(cutChar);
             x--;
@@ -53,6 +53,8 @@ public class MapPhasing : MonoBehaviour
             z = 0;
         }        
 
+        // 주미션설정
+        // 부가미션설정
     }
 
     private void CreateInteractionObject(string  objectName,  string colorName, Vector3 createPosition){

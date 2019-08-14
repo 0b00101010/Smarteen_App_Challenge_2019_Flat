@@ -15,6 +15,8 @@ public class StageManager : MonoBehaviour
 
     [SerializeField]
     private Text textTimer;
+    private int moveCount = 0;
+    private bool isMissionClear = false;
 
     private float floatTimer = 30;
     private void Awake(){
@@ -76,6 +78,7 @@ public class StageManager : MonoBehaviour
     public void Retry(){
         SceneManager.LoadScene("02.InGame");
     }
+    
     public void GameClear(){
         if(PlayerPrefs.HasKey("Stage_0" + GameManager.instance.nextStageNumber)){
             if(!PlayerPrefs.GetString("Stage_0" + GameManager.instance.nextStageNumber).Equals("Clear"))

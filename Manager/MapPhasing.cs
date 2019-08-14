@@ -23,7 +23,7 @@ public class MapPhasing : MonoBehaviour
     [SerializeField]
     private GameObject cube;
  
-    private void Start(){
+    public void Phasing(){
 
         tile = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Tile/Tile");
 
@@ -35,7 +35,7 @@ public class MapPhasing : MonoBehaviour
         for(int i =0 ; i < str.Length; i++){
             mapDatas.Add(str[i]);
         }
-        // 블럭 오브젝트들 설치
+        // 블럭 오브젝트들 설치ß
         for(int i = 0 ; i< mapDatas.Count; i++){
             mapData = mapDatas[i].Split(cutChar);
             x--;

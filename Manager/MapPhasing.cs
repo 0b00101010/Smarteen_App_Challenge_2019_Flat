@@ -29,6 +29,7 @@ public class MapPhasing : MonoBehaviour
 
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
         
+        string[] cutBigLine = mapDataFile.text.Split('S');
         string[] str = mapDataFile.text.Split('\n');
         string[] mapData;
 
@@ -52,6 +53,7 @@ public class MapPhasing : MonoBehaviour
             }
             z = 0;
         }        
+
 
         // 주미션설정
         // 부가미션설정

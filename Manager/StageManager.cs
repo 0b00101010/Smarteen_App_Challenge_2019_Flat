@@ -16,9 +16,8 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Text textTimer;
     private int moveCount = 0;
-    private bool isMissionClear = false;
 
-    private float floatTimer = 30;
+    private float floatTimer;
     private void Awake(){
         if(instance == null)
             instance = this;
@@ -27,8 +26,8 @@ public class StageManager : MonoBehaviour
     private void Start() {
         backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
-        phasing = gameObject.GetComponent<MapPhasing>();
-        phasing.Phasing();
+        //phasing = gameObject.GetComponent<MapPhasing>();
+        //phasing.Phasing();
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
@@ -90,7 +89,7 @@ public class StageManager : MonoBehaviour
     }
 
     private int GetMapStar(){
-
+        
         return 0;
     }
 }

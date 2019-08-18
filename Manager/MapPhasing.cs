@@ -45,7 +45,7 @@ public class MapPhasing : MonoBehaviour
 
             for(int j = 0 ; j < mapData.Length; j++){
                 if(!IsExited(mapData[j], '_').Equals(-1)){ 
-                    
+                    // 오브젝트 생성할때 좌표 초기화
                     string[] colorAndPosition = mapData[j].Split('_');
                     Vector3 createPosition =  new Vector3(x,0,z);
                     CreateInteractionObject(colorAndPosition[1],colorAndPosition[0], createPosition);

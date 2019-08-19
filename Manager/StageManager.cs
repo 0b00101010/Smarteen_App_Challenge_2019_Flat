@@ -25,6 +25,8 @@ public class StageManager : MonoBehaviour
     private int moveCount = 0;
     #endregion FIELDS
 
+
+    #region GAME_SETTING
     [Space(10)]
     [Header("Game Information Setting")]
     [Space(10)]
@@ -36,17 +38,20 @@ public class StageManager : MonoBehaviour
     [Dropdown("missionTypes")]
     [SerializeField]
     private string missionType;
-
+    private string stageType; // Original, custom
     private string[] missionTypes = {"Button_Excute", "Time", "MoveCount", "None"};
     private string[] limitTypes = {"Time", "MoveCount", "None"};
     
-    private int limitMissionValue;
-    private int bonusMissionValue;
+    private string theme;
+
+    private int limitValue;
+    private int missionValue;
 
     [ShowIf("LimitTypeTime")]
     [MinValue(30f),MaxValue(100f)]
     [SerializeField]
     private float floatTimer = 1000;
+    #endregion GAME_SETTING
     private void Awake(){
         if(instance == null)
             instance = this;
@@ -65,8 +70,13 @@ public class StageManager : MonoBehaviour
         return false;
     }
 
-    public void GameSetting(int stageNumber, string stageType, string limitMission, int limitMissionValue, string bonusMission, int bonusMissionValue, string theme){
-
+    public void GameSetting(int stageNumber, string stageType, string limitType, int limitMissionValue, string missionType, int missionValue, string theme){
+        this.stageType = stageType;
+        this.limitType = limitType;
+        this.limitValue = limitMissionValue;
+        this.missionType = missionType;
+        this.missionValue = missionValue;
+        this.theme = theme;
     }
 
     private void Start() {

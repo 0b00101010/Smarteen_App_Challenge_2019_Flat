@@ -18,6 +18,9 @@ public class MapPhasing : MonoBehaviour
     private GameObject tile;
     private GameObject wall;
 
+    private string[] inGameInformations;
+    // StageNumber, StageType, Limit, LimitValue, Mission, MissionValue, Theme
+
     [SerializeField]
     private GameObject invisibleWall;
     [SerializeField]
@@ -26,43 +29,65 @@ public class MapPhasing : MonoBehaviour
     public void Phasing(){
 
         tile = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Tile/Tile");
-
+        interactionObject[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button");
+        interactionObject[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Spike/Spike");
+        interactionObject[2] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Portal/Portal");
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
             
         // 한 표식을 기점으로 오브젝트 데이타와 맵 내부 시스템 데이타로 구분하기
         string[] fileData = mapDataFile.text.Split('-');
-        string[] frontData = fileData[0].Split('\n');
-        string[] backData = fileData[1].Split('\n');
+        string[] frontData = fileData[0].Split('\n'); // 타일 정보
+        string[] middleData = fileData[1].Split('\n'); // 오브젝트들 위치 
+        string[] backData = fileData[2].Split('\n'); // 인 게임 셋팅
         string[] mapData;
 
-        for(int i =0 ; i < frontData.Length; i++){
+        for(int i =0 ; i < frontData.Length; i++)
             mapDatas.Add(frontData[i]);
-        }
-        // 블럭 오브젝트들 설치
+        
+        // 타일 설치
         for(int i = 0 ; i< mapDatas.Count; i++){
             mapData = mapDatas[i].Split(cutChar);
-            x--;
-
+            x++;
             for(int j = 0 ; j < mapData.Length; j++){
-                if(!IsExited(mapData[j], '_').Equals(-1)){ 
-                    // 오브젝트 생성할때 좌표 초기화
-                    string[] colorAndPosition = mapData[j].Split('_');
-                    Vector3 createPosition =  new Vector3(x,0,z);
-                    CreateInteractionObject(colorAndPosition[1],colorAndPosition[0], createPosition);
-                }else{
-                    Instantiate(tile,new Vector3(x,0,z),Quaternion.identity);        
-                }
-                z++;
+                Instantiate(tile,new Vector3(x,0,z),Quaternion.identity);        
+                z--;
             }
             z = 0;
         }        
 
-        mapDatas.RemoveRange(0,mapDatas.Count);
+        mapDatas.Clear();
+        
+        for(int i = 0; i < middleData.Length; i++)
+            mapDatas.Add(middleData[i]);
 
-        for(int i = 0; i < backData.Length; i++){
+        x = 0;
+        z = 0;
+
+
+        // 오브젝트 생성
+        for(int i = 0 ; i < mapDatas.Count; i++){
+            mapData = mapDatas[i].Split(cutChar);
+            x++;
+            for(int j = 0; j < mapData.Length; j++){
+                string[] colorAndPosition = mapData[j].Split('_');
+                Vector3 createPosition =  new Vector3(x,0,z);
+                CreateInteractionObject(colorAndPosition[1],colorAndPosition[0], createPosition);
+                z--;
+            }
+            z = 0;
+        }        
+
+        mapDatas.Clear();
+        
+        for(int i = 0; i < backData.Length; i++)
             mapDatas.Add(backData[i]);
+        
+        for(int i = 0; i < mapDatas.Count; i++){
+            string[] gameSystemInformation = mapDatas[i].Split(':'); 
+            MapInformationSetting(gameSystemInformation[0], gameSystemInformation[1]);
         }
 
+        StageManager.instance.GameSetting(int.Parse(inGameInformations[0]),inGameInformations[1],inGameInformations[2],int.Parse(inGameInformations[3]),inGameInformations[4],int.Parse(inGameInformations[5]),inGameInformations[6]);
     }
 
     private void CreateInteractionObject(string  objectName,  string colorName, Vector3 createPosition){
@@ -99,12 +124,31 @@ public class MapPhasing : MonoBehaviour
         }
 
     }
+        
+    private void MapInformationSetting(string information, string value){
+        switch(information){
+            case "StageNumber":
+            inGameInformations[0] = value;
+            break;
+            case "StageType":
+            inGameInformations[1] = value;
+            break;
+            case "Limit":
+            inGameInformations[2] = value.Split('/')[0];
+            inGameInformations[3] = value.Split('/')[1];
+            break;
+            case "Mission":
+            inGameInformations[4] = value.Split('/')[0];
+            inGameInformations[5] = value.Split('/')[1];
+            break;
+            case "Theme":
+            inGameInformations[6] = value;
+            break;
 
-    private void MapInformationSetting(){
-
+        }
     }
 
-    private int IsExited(string tempString, char findChar){
+    private int IsExisted(string tempString, char findChar){
         return tempString.IndexOf(findChar);
     }
 

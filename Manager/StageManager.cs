@@ -6,24 +6,71 @@ using NaughtyAttributes;
 using UnityEngine.SceneManagement;
 public class StageManager : MonoBehaviour
 {
+
+    #region FIELDS
     public static StageManager instance;
     private MapPhasing phasing;
     [SerializeField]
+
+    [BoxGroup("Fields")]
     private Image backgroundImage;
+
+    [BoxGroup("Fields")]
     [SerializeField]
     private Image blackImage;
 
+    [BoxGroup("Fields")]
     [SerializeField]
     private Text textTimer;
     private int moveCount = 0;
+    #endregion FIELDS
 
-    private float floatTimer;
+    [Space(10)]
+    [Header("Game Information Setting")]
+    [Space(10)]
+
+    [Dropdown("limitTypes")]
+    [SerializeField]
+    private string limitType;
+
+    [Dropdown("missionTypes")]
+    [SerializeField]
+    private string missionType;
+
+    private string[] missionTypes = {"Button_Excute", "Time", "MoveCount", "None"};
+    private string[] limitTypes = {"Time", "MoveCount", "None"};
+    
+    private int limitMissionValue;
+    private int bonusMissionValue;
+
+    [ShowIf("LimitTypeTime")]
+    [MinValue(30f),MaxValue(100f)]
+    [SerializeField]
+    private float floatTimer = 1000;
     private void Awake(){
         if(instance == null)
             instance = this;
     }
 
+    private bool LimitTypeTime(){
+        if(limitType.Equals("Time"))
+            return true;
+
+        return false;
+    }
+
+    private bool LimitTypeMoveCount(){
+        if(limitType.Equals("MoveCount"))
+            return true;
+        return false;
+    }
+
+    public void GameSetting(int stageNumber, string stageType, string limitMission, int limitMissionValue, string bonusMission, int bonusMissionValue, string theme){
+
+    }
+
     private void Start() {
+
         backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
         //phasing = gameObject.GetComponent<MapPhasing>();
@@ -35,12 +82,19 @@ public class StageManager : MonoBehaviour
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
     }
 
-    private void FixedUpdate(){
-        floatTimer -= Time.deltaTime;
-        textTimer.text = floatTimer.ToString("N2");
+    private IEnumerator GameTimer(){
+        var waitingTime = new WaitForSecondsRealtime(0.02f);
+        
+        while(true){
+            floatTimer -= Time.deltaTime;
+            textTimer.text = floatTimer.ToString("N2");
 
-        if(floatTimer < 0){
-            GameEnd();
+            if(floatTimer < 0){
+                GameEnd();
+                break;
+            }
+            
+            yield return waitingTime;
         }
     }
 
@@ -89,7 +143,6 @@ public class StageManager : MonoBehaviour
     }
 
     private int GetMapStar(){
-        
-        return 0;
+        return 1;
     }
 }

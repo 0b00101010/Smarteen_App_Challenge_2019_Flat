@@ -20,7 +20,7 @@ public class LoadingBar : MonoBehaviour
     public float LoadingBarAmount{get => loadingBarAmount;}
 
     private Vector3 cubePosition;
-    private Vector3 smallerScale = new Vector3(0.0025f,0.0025f,0.0025f);
+    private Vector3 smallerScale = new Vector3(0.000f,0.000f,0.000f);
     private Vector3 originalScale = new Vector3(1.0f,1.0f,1.0f);
     private float rotateAngle = 0.0f;
     private IEnumerator loadingCoroutine;
@@ -57,21 +57,22 @@ public class LoadingBar : MonoBehaviour
         
         while(true){
             if(loadingBar.fillAmount < 0.9f)
-                loadingBar.fillAmount += 0.005f;
-            else 
-                loadingBar.fillAmount = 0.0f;
-
+                loadingBar.fillAmount += 0.01f;
+            else
+                loadingBar.fillAmount = 0;
+                
+            
             loadingBarAmount = loadingBar.fillAmount;
 
             if(rotateAngle == -450){
                 StartCoroutine(CubeFadeInOut());
             }else if(rotateAngle > -450){
                 cubeImage.rectTransform.rotation = Quaternion.Euler(0,0,rotateAngle);
-                cubeImage.rectTransform.position = new Vector2(cubeImage.rectTransform.position.x + 1.2f,cubeImage.rectTransform.position.y);
+                //cubeImage.rectTransform.position = new Vector3(cubeImage.rectTransform.position.x + 0.8f,cubeImage.rectTransform.position.y, 0);
                 cubeImage.rectTransform.localScale -= smallerScale;
             }
 
-            rotateAngle -= 2 ;
+            rotateAngle -= 3 ;
             
             yield return null;
         }

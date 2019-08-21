@@ -22,7 +22,6 @@ public class StageManager : MonoBehaviour
     [BoxGroup("Fields")]
     [SerializeField]
     private Text textTimer;
-    private int moveCount = 0;
     #endregion FIELDS
 
 
@@ -51,6 +50,18 @@ public class StageManager : MonoBehaviour
     [MinValue(30f),MaxValue(100f)]
     [SerializeField]
     private float floatTimer = 1000;
+    private int moveCount = 0;
+    private bool isTypeMoveCount = false;
+
+    public int MoveCount {
+        get => moveCount; 
+        set {
+                moveCount = value;
+                if(isTypeMoveCount && moveCount <= 0)
+                    GameEnd();
+            }
+        }
+
     #endregion GAME_SETTING
     private void Awake(){
         if(instance == null)
@@ -70,10 +81,10 @@ public class StageManager : MonoBehaviour
         return false;
     }
 
-    public void GameSetting(int stageNumber, string stageType, string limitType, int limitMissionValue, string missionType, int missionValue, string theme){
+    public void GameSetting(int stageNumber, string stageType, string limitType, int limitValue, string missionType, int missionValue, string theme){
         this.stageType = stageType;
         this.limitType = limitType;
-        this.limitValue = limitMissionValue;
+        this.limitValue = limitValue;
         this.missionType = missionType;
         this.missionValue = missionValue;
         this.theme = theme;
@@ -83,13 +94,23 @@ public class StageManager : MonoBehaviour
 
         backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
-        //phasing = gameObject.GetComponent<MapPhasing>();
-        //phasing.Phasing();
+        phasing = gameObject.GetComponent<MapPhasing>() ?? null;
+        phasing?.Phasing();
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
 
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
+
+
+        if(limitType.Equals("Time")){
+            floatTimer = (float)limitValue;
+            StartCoroutine(GameTimer());
+        }    
+        else if(limitType.Equals("MoveCount")){
+            moveCount = limitValue;
+            isTypeMoveCount = true;
+        }
     }
 
     private IEnumerator GameTimer(){
@@ -153,6 +174,7 @@ public class StageManager : MonoBehaviour
     }
 
     private int GetMapStar(){
+        
         return 1;
     }
 }

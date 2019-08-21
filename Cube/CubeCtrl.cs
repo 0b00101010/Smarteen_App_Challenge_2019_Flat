@@ -12,9 +12,15 @@ public class CubeCtrl : MonoBehaviour
     private Vector3 rotateVector;
     private Vector3 moveVector;
 
+    private IObserver CubeMoveObserver;
+
     private void Start()
     {
         ray.origin = gameObject.transform.position;
+    }
+
+    public void SubscribeObserver(IObserver observer){
+        CubeMoveObserver = observer;
     }
 
     private void Update()
@@ -104,6 +110,8 @@ public class CubeCtrl : MonoBehaviour
     }
     private IEnumerator MoveAndRotate()
     {
+        CubeMoveObserver.Notify();
+
         if (!DetectedWall()){
         // colorState.CurColor.ColorDebug();
             for(int i  = 0 ; i < 10; i++){

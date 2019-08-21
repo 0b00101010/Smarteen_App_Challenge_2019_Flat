@@ -28,12 +28,11 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void Update(){
         LoadingAmount = loadingBar.LoadingBarAmount;
-
-
     }
 
+
     private IEnumerator NextSceneLoad(){
-        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.25f));
-        SceneManager.LoadScene("");
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.5f));
+        SceneManager.LoadScene("02.InGame");
     }
 }

@@ -43,6 +43,7 @@ public class StartSceneManager : MonoBehaviour
 
     private void CastRay(){
 
+//ss
         
         // ray.origin = GameManager.instance.touchManager.GetPosition();
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);

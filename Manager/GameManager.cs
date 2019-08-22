@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public TouchManager touchManager;
     
+    public SoundManager soundManager;
+
     public string nextRound;
     public int nextStageNumber;
 
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
             star = PlayerPrefs.GetInt("Star");    
                     
         touchManager = gameObject.GetComponent<TouchManager>();
+        soundManager = gameObject.GetComponent<SoundManager>();
         DontDestroyOnLoad(gameObject);
     }
 

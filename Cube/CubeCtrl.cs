@@ -101,6 +101,7 @@ public class CubeCtrl : MonoBehaviour
        ray.origin = gameObject.transform.position;
        ray.direction = moveVector;
        RaycastHit hit;
+       
        if(Physics.Raycast(ray,out hit, 1, LayerMask.GetMask("Wall")))
         {
             return true;

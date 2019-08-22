@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private float bgmVolume = 0.5f;
-    private float sfxVolume = 0.5f;
+    private bool bgmOnOff;
 
-    public float BGMVoule{
-        get => bgmVolume;
+    public bool BGMOnOff{
+        get => bgmOnOff;
         set {
-            bgmVolume = value;
-            PlayerPrefs.SetFloat("BGM",value);
+            bgmOnOff = value;
+            PlayerPrefs.SetString("BGM",bgmOnOff.ToString());
+            Setting();
         }
     }
 
-    public float SFXVolume{
-        get => sfxVolume;
+    private bool sfxOnOff;
+
+    public bool SFXOnOff{
+        get => sfxOnOff;
         set {
-            sfxVolume = value;
-            PlayerPrefs.SetFloat("SFX",value);
+            sfxOnOff = value;
+            PlayerPrefs.SetString("SFX",sfxOnOff.ToString());
+            Setting();
         }
     }
 
@@ -28,17 +31,32 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
     private void Start(){
+
         if(PlayerPrefs.HasKey("BGM"))
-            bgmVolume = PlayerPrefs.GetFloat("BGM");
-        else
-            PlayerPrefs.SetFloat("BGM",0.5f);
-            
+            BGMOnOff = bool.Parse(PlayerPrefs.GetString("BGM"));
+        else 
+            BGMOnOff = true;
+
         if(PlayerPrefs.HasKey("SFX"))
-            sfxVolume = PlayerPrefs.GetFloat("SFX");
+            SFXOnOff = bool.Parse(PlayerPrefs.GetString("SFX"));
+
         else
-            PlayerPrefs.SetFloat("SFX",0.5f);
-            
+            SFXOnOff = true;
+
+    }
+
+    private void Setting(){
         
+        if(bool.Parse(PlayerPrefs.GetString("BGM")))
+            bgmSource.volume = 1.0f;
+        else
+            bgmSource.volume = 0.0f;
+
+        if(bool.Parse(PlayerPrefs.GetString("SFX")))
+            sfxSource.volume = 1.0f;
+        else
+            sfxSource.volume = 0.0f;
+            
     }
 
     public void ChangeBGM(AudioClip bgmClip){

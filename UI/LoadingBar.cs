@@ -25,7 +25,7 @@ public class LoadingBar : MonoBehaviour
     private float rotateAngle = 0.0f;
     private IEnumerator loadingCoroutine;
 
-    private void Awake() {
+    private void Start() {
         loadingCoroutine = Loading();
         cubePosition = cubeImage.transform.position;
     }
@@ -56,23 +56,22 @@ public class LoadingBar : MonoBehaviour
         ResetLoadingUI();
         
         while(true){
-            if(loadingBar.fillAmount < 0.9f)
+            if(loadingBar.fillAmount < 1f)
                 loadingBar.fillAmount += 0.01f;
-            else
-                loadingBar.fillAmount = 0;
                 
-            
             loadingBarAmount = loadingBar.fillAmount;
 
-            if(rotateAngle == -450){
+            if(rotateAngle == -360){
                 StartCoroutine(CubeFadeInOut());
-            }else if(rotateAngle > -450){
+                cubeImage.rectTransform.rotation = Quaternion.Euler(0,0,0);
+            }else if(rotateAngle > -360){
                 cubeImage.rectTransform.rotation = Quaternion.Euler(0,0,rotateAngle);
-                //cubeImage.rectTransform.position = new Vector3(cubeImage.rectTransform.position.x + 0.8f,cubeImage.rectTransform.position.y, 0);
+                cubeImage.rectTransform.Translate(new Vector2(0.9f,0),Space.World);            
                 cubeImage.rectTransform.localScale -= smallerScale;
             }
-
+            
             rotateAngle -= 3 ;
+            
             
             yield return null;
         }
@@ -82,6 +81,7 @@ public class LoadingBar : MonoBehaviour
     private IEnumerator CubeFadeInOut(){
         yield return StartCoroutine(GameManager.instance.IFadeOut(cubeImage,0.25f));
         cubeImage.transform.position = cubePosition;
+        cubeImage.rectTransform.rotation = Quaternion.Euler(0,0,0);
         cubeImage.rectTransform.localScale = new Vector3(1.0f,1.0f,1.0f);
         yield return StartCoroutine(GameManager.instance.IFadeIn(cubeImage,0.25f));
         rotateAngle = 0;

@@ -10,7 +10,10 @@ public class SoundManager : MonoBehaviour
         get => bgmOnOff;
         set {
             bgmOnOff = value;
-            PlayerPrefs.SetString("BGM",bgmOnOff.ToString());
+            if(bgmOnOff)
+                PlayerPrefs.SetString("BGM","true");
+            else
+                PlayerPrefs.SetString("BGM","false");
             Setting();
         }
     }
@@ -21,8 +24,13 @@ public class SoundManager : MonoBehaviour
         get => sfxOnOff;
         set {
             sfxOnOff = value;
-            PlayerPrefs.SetString("SFX",sfxOnOff.ToString());
+            if(sfxOnOff)
+                PlayerPrefs.SetString("SFX","true");
+            else
+                PlayerPrefs.SetString("SFX","false");                
+                
             Setting();
+
         }
     }
 
@@ -31,15 +39,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource sfxSource;
     private void Start(){
-
         if(PlayerPrefs.HasKey("BGM"))
             BGMOnOff = bool.Parse(PlayerPrefs.GetString("BGM"));
         else 
             BGMOnOff = true;
 
         if(PlayerPrefs.HasKey("SFX"))
-            SFXOnOff = bool.Parse(PlayerPrefs.GetString("SFX"));
-
+            sfxOnOff = bool.Parse(PlayerPrefs.GetString("SFX"));
         else
             SFXOnOff = true;
 

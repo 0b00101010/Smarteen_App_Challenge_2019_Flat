@@ -32,7 +32,7 @@ public class LoadingSceneManager : MonoBehaviour
 
 
     private IEnumerator NextSceneLoad(){
-        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.5f));
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.5f,30));
         SceneManager.LoadScene("02.InGame");
     }
 }

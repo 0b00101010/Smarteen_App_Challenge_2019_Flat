@@ -9,14 +9,16 @@ public class GameManager : MonoBehaviour
     public TouchManager touchManager;
     
     public SoundManager soundManager;
-
+    [Space(20)]
     public string nextRound;
     public int nextStageNumber;
-
+    
+    [Space(20)]
     [SerializeField]
     [ProgressBar("Star",100,ProgressBarColor.Yellow)]
     private int star;    
 
+    
     public int Star{
         get => star;
         set{
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        if(PlayerPrefs.HasKey("Star"))
+        if(!PlayerPrefs.HasKey("Star"))
             PlayerPrefs.SetInt("Star",0);
         else
             star = PlayerPrefs.GetInt("Star");    
@@ -37,6 +39,13 @@ public class GameManager : MonoBehaviour
         touchManager = gameObject.GetComponent<TouchManager>();
         soundManager = gameObject.GetComponent<SoundManager>();
         DontDestroyOnLoad(gameObject);
+    }
+
+    [Button("PlayerPrefs Key all Clear")]
+    public void ClearAllKey(){
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetString("BGM","true");
+        PlayerPrefs.SetString("SFX","true");
     }
 
     private void Update()
@@ -76,5 +85,9 @@ public class GameManager : MonoBehaviour
             image.color = new Color(image.color.r, image.color.g, image.color.b, image.color.a - (1.0f / repeatCount));
             yield return new WaitForSeconds(spendTime / repeatCount);
         }
+    }
+
+    private void OnApplicationQuit(){
+        PlayerPrefs.Save();
     }
 }

@@ -114,7 +114,7 @@ public class MapPhasing : MonoBehaviour
         }
 
         createPosition.y = interactionObjectCreatePositions[objectIndex].position.y;
-
+        
         if(objectIndex != -1){
             GameObject createdObject = Instantiate(interactionObject[objectIndex], createPosition, Quaternion.identity);
             createdObject.GetComponent<InteractionObject>().colorNumber = colorIndex;

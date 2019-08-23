@@ -32,27 +32,26 @@ public class StartSceneManager : MonoBehaviour
             sfxButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
     }
     private void Update(){
-        if(blackImage.color.a < 0.05f)
+        if(blackImage.color.a < 0.005f)
             blackImage.gameObject.SetActive(false);
 
-        if(settingCanvas.gameObject.activeSelf && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
+        if(settingCanvas.gameObject.activeInHierarchy && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
             CastRay();
         }
         
     }
 
     private void CastRay(){
-
-//ss
         
         // ray.origin = GameManager.instance.touchManager.GetPosition();
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.Log(ray.origin);
         // ray.origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ray.direction = Vector3.forward;
         RaycastHit2D hit = Physics2D.Raycast(ray.origin,ray.direction,Mathf.Infinity,LayerMask.GetMask("UI"));
         
-        Debug.Log(hit.collider?.transform.name);
+        if(hit.collider == null){
+            settingCanvas.gameObject.SetActive(false);
+        }
         
         // RaycastHit hit; 
         // if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){

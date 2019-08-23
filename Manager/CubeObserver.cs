@@ -12,6 +12,7 @@ public class CubeObserver : MonoBehaviour, IObserver
     }
 
     public void Notify(){
-       StageManager.instance.MoveCount--; 
+        if(StageManager.instance.MoveCount > 0)
+            StageManager.instance.MoveCount--; 
     }
 }

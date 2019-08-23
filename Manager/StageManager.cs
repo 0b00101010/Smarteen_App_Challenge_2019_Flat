@@ -21,7 +21,11 @@ public class StageManager : MonoBehaviour
 
     [BoxGroup("Fields")]
     [SerializeField]
-    private Text textTimer;
+    private Text limitText;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Text missionText;
     #endregion FIELDS
 
 
@@ -43,22 +47,35 @@ public class StageManager : MonoBehaviour
     
     private string theme;
 
-    private int limitValue;
-    private int missionValue;
 
-    [ShowIf("LimitTypeTime")]
-    [MinValue(30f),MaxValue(100f)]
+    [Space(20)]
+    [MinValue(0f),MaxValue(100f)]
     [SerializeField]
-    private float floatTimer = 1000;
-    private int moveCount = 0;
-    private bool isTypeMoveCount = false;
+    private int limitValue;
 
+    [MinValue(0f),MaxValue(100f)]
+    [SerializeField]
+    private int missionValue;
+    private float floatTimer;
+    private int moveCount = 0;
+    private bool isLimitTypeMoveCount = false;
+    private bool isMissionTypeMoveCount = false;
+
+    [SerializeField]
+    private bool missionClear;
     public int MoveCount {
         get => moveCount; 
         set {
                 moveCount = value;
-                if(isTypeMoveCount && moveCount <= 0)
+                if(isLimitTypeMoveCount)
+                    limitText.text = moveCount.ToString();
+                if(isLimitTypeMoveCount && moveCount <= 0)
                     GameEnd();
+
+                if(isMissionTypeMoveCount)
+                    missionText.text = moveCount.ToString();
+                if(isMissionTypeMoveCount && moveCount <= 0)
+                    missionClear = false;
             }
         }
 
@@ -66,19 +83,6 @@ public class StageManager : MonoBehaviour
     private void Awake(){
         if(instance == null)
             instance = this;
-    }
-
-    private bool LimitTypeTime(){
-        if(limitType.Equals("Time"))
-            return true;
-
-        return false;
-    }
-
-    private bool LimitTypeMoveCount(){
-        if(limitType.Equals("MoveCount"))
-            return true;
-        return false;
     }
 
     public void GameSetting(int stageNumber, string stageType, string limitType, int limitValue, string missionType, int missionValue, string theme){
@@ -108,8 +112,20 @@ public class StageManager : MonoBehaviour
             StartCoroutine(GameTimer());
         }    
         else if(limitType.Equals("MoveCount")){
+            isLimitTypeMoveCount = true;
             moveCount = limitValue;
-            isTypeMoveCount = true;
+        }
+
+        if(missionType.Equals("Time")){
+            missionClear = true;
+            StartCoroutine(GameTimer());                
+        }
+        else if(missionType.Equals("MoveCount")){
+            missionClear = true;
+            isMissionTypeMoveCount = true;
+            moveCount = missionValue;
+        }
+        else if(missionType.Equals("Button_Excute")){
         }
     }
 
@@ -118,10 +134,20 @@ public class StageManager : MonoBehaviour
         
         while(true){
             floatTimer -= Time.deltaTime;
-            textTimer.text = floatTimer.ToString("N2");
+            
+            if(limitType.Equals("Time"))
+                limitText.text = floatTimer.ToString("N2");
+
+            else if(missionType.Equals("Time"))
+                missionText.text = floatTimer.ToString("N2");
 
             if(floatTimer < 0){
-                GameEnd();
+                
+                if(limitType.Equals("Time"))
+                    GameEnd();
+                else if(missionType.Equals("Time"))
+                    missionClear = false;
+
                 break;
             }
             
@@ -157,20 +183,25 @@ public class StageManager : MonoBehaviour
     [Button("GameEnd")]
     public void GameEnd(){
         StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.2f));
-        PlayerPrefs.SetString("Stage_0" + GameManager.instance.nextStageNumber,"UnClear");
+        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star"))){
+            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","false");   
+        } 
+
+        
     }
     public void Retry(){
         SceneManager.LoadScene("02.InGame");
     }
-    
+    [Button("GameClear")]    
     public void GameClear(){
-        if(PlayerPrefs.HasKey("Stage_0" + GameManager.instance.nextStageNumber)){
-            if(!PlayerPrefs.GetString("Stage_0" + GameManager.instance.nextStageNumber).Equals("Clear"))
-                GameManager.instance.Star += GetMapStar();
-        }else{
+        
+        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star")) && missionClear){
             GameManager.instance.Star += GetMapStar();
-            PlayerPrefs.SetString("Stage_0" + GameManager.instance.nextStageNumber,"Clear");
+            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","true");   
         }
+
+        PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString(),"true");
+    
     }
 
     private int GetMapStar(){

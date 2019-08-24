@@ -86,7 +86,7 @@ public class MapPhasing : MonoBehaviour
             string[] gameSystemInformation = mapDatas[i].Split(':'); 
             MapInformationSetting(gameSystemInformation[0], gameSystemInformation[1]);
         }
-
+        
         StageManager.instance.GameSetting(int.Parse(inGameInformations[0]),inGameInformations[1],inGameInformations[2],int.Parse(inGameInformations[3]),inGameInformations[4],int.Parse(inGameInformations[5]),inGameInformations[6]);
     }
 

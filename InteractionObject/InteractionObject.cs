@@ -22,7 +22,7 @@ public class InteractionObject : MonoBehaviour
         Vector3 pos = new Vector3(gameObject.transform.position.x ,-2, gameObject.transform.position.z);
         ray.origin = pos;
         ray.direction = Vector3.up;
-        gameObject.transform.GetComponent<MeshRenderer>().material = materialsCtrl.GetColorMaterials(colorNumber);
+        gameObject.transform.GetComponent<MeshRenderer>().material = materialsCtrl?.GetColorMaterials(colorNumber) ?? gameObject.transform.GetComponent<MeshRenderer>().material;
     }
 
     protected virtual void Interaction() { }

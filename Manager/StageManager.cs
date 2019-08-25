@@ -26,6 +26,10 @@ public class StageManager : MonoBehaviour
     [BoxGroup("Fields")]
     [SerializeField]
     private Text missionText;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Sprite[] themeBackgrounds;
     #endregion FIELDS
 
 
@@ -45,7 +49,7 @@ public class StageManager : MonoBehaviour
     private string[] missionTypes = {"Button_Excute", "Time", "MoveCount", "None"};
     private string[] limitTypes = {"Time", "MoveCount", "None"};
     
-    private string theme;
+    private int theme;
 
 
     [Space(20)]
@@ -85,7 +89,7 @@ public class StageManager : MonoBehaviour
             instance = this;
     }
 
-    public void GameSetting(int stageNumber, string stageType, string limitType, int limitValue, string missionType, int missionValue, string theme){
+    public void GameSetting(int stageNumber, string stageType, string limitType, int limitValue, string missionType, int missionValue, int theme){
         this.stageType = stageType;
         this.limitType = limitType;
         this.limitValue = limitValue;
@@ -96,13 +100,20 @@ public class StageManager : MonoBehaviour
 
     private void Start() {
 
-        backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
+        if(!stageType.Equals("Custom"))
+            backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
+        else
+            backgroundImage.sprite = themeBackgrounds[theme];
+
+
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
         phasing = gameObject.GetComponent<MapPhasing>() ?? null;
         phasing?.Phasing();
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
+
+        
 
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
 

@@ -15,7 +15,8 @@ public class MapPhasing : MonoBehaviour
     // Tile Wall Object
     [SerializeField]
     [Tooltip("0 button, 1 spike, 2 portal")]
-    private GameObject[] interactionObject = new GameObject[3]; // 0 button, 1 spike, 2 portal
+    private GameObject[] interactionObject = new GameObject[2]; // 0 spike, 1 portal
+    private GameObject[] buttons = new GameObject[6];
     private GameObject tile;
     private GameObject wall;
 
@@ -30,9 +31,17 @@ public class MapPhasing : MonoBehaviour
     public void Phasing(){
 
         tile = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Tile/Tile");
-        interactionObject[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button") ?? null;
-        interactionObject[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Spike/Spike") ?? null;
-        interactionObject[2] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Portal/Portal") ?? null;
+        interactionObject[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Spike/Spike") ?? null;
+        interactionObject[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Portal/Portal") ?? null;
+
+        buttons[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Lime") ?? null;
+        buttons[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Blue") ?? null;        
+        buttons[2] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Red") ?? null;        
+        buttons[3] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Magenta") ?? null;        
+        buttons[4] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Orange") ?? null;        
+        buttons[5] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Yellow") ?? null;        
+
+
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
                 
         // 한 표식을 기점으로 오브젝트 데이타와 맵 내부 시스템 데이타로 구분하기
@@ -118,7 +127,8 @@ public class MapPhasing : MonoBehaviour
 
         switch(objectName){
             case "Button":
-                objectIndex = 0;
+                objectIndex = -1;
+                GameObject createdObject = Instantiate(buttons[colorIndex], createPosition, Quaternion.identity);                  
             break;
 
             case "Spike":
@@ -133,8 +143,6 @@ public class MapPhasing : MonoBehaviour
                 objectIndex = -1;
             break;
         }
-
-        createPosition.y = interactionObjectCreatePositions[objectIndex].position.y;
         
         if(objectIndex != -1){
             GameObject createdObject = Instantiate(interactionObject[objectIndex], createPosition, Quaternion.identity);

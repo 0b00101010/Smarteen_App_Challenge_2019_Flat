@@ -23,6 +23,15 @@ public class ClolorButtons : InteractionObject
             if (temp[i].GetComponent<Wall>().colorNumber.Equals(colorNumber))
                 walls.Add(temp[i]);
         }
+
+        Ray ray = new Ray();
+        RaycastHit hit;
+        ray.origin = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 5, gameObject.transform.position.z);
+        ray.direction = Vector3.up;
+       if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Tile")))
+        {
+            underBlock = hit.collider?.GetComponent<TileBlock>() ?? null;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +51,7 @@ public class ClolorButtons : InteractionObject
 
     private IEnumerator CollisionWait()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         isCollision = false;
     }
 

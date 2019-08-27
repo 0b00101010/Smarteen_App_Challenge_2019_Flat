@@ -110,7 +110,7 @@ public class MapPhasing : MonoBehaviour
                     continue;
 
                 if(mapData[j].Equals("Start")){
-                    cube.transform.position = new Vector3(x,1,z);
+                    cube.transform.position = new Vector3(x,1.5f,z);
                     continue;
                 }
 
@@ -138,7 +138,7 @@ public class MapPhasing : MonoBehaviour
                 GameObject createdObject = Instantiate(buttons[colorIndex], createPosition, Quaternion.identity);                  
                 return;
             break;
-
+            
             case "Spike":
                 objectIndex = 1;
             break;

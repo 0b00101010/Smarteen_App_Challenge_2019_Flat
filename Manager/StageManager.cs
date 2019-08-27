@@ -100,10 +100,6 @@ public class StageManager : MonoBehaviour
 
     private void Start() {
 
-        if(!stageType.Equals("Custom"))
-            backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
-        else
-            backgroundImage.sprite = themeBackgrounds[theme];
 
 
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
@@ -113,6 +109,10 @@ public class StageManager : MonoBehaviour
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
 
+        if(!stageType.Equals("Custom"))
+            backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
+        else
+            backgroundImage.sprite = themeBackgrounds[theme];
         
 
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));

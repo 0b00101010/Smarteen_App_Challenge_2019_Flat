@@ -34,16 +34,17 @@ public class MapPhasing : MonoBehaviour
         interactionObject[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Spike/Spike") ?? null;
         interactionObject[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Portal/Portal") ?? null;
 
-        buttons[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Lime") ?? null;
-        buttons[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Blue") ?? null;        
-        buttons[2] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Red") ?? null;        
-        buttons[3] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Magenta") ?? null;        
-        buttons[4] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Orange") ?? null;        
-        buttons[5] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "Button/Button_Yellow") ?? null;        
+        buttons[0] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Lime") ?? null;
+        buttons[1] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Blue") ?? null;        
+        buttons[2] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Red") ?? null;        
+        buttons[3] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Magenta") ?? null;        
+        buttons[4] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Orange") ?? null;        
+        buttons[5] = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/Button/Button_Yellow") ?? null;        
 
+        cube = GameObject.Find("CUBE");
 
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
-                
+        Debug.Log("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
         // 한 표식을 기점으로 오브젝트 데이타와 맵 내부 시스템 데이타로 구분하기
         string[] fileData = mapDataFile.text.Split(new string[] {"\n-\n"}, System.StringSplitOptions.None);
 
@@ -108,6 +109,11 @@ public class MapPhasing : MonoBehaviour
                 if(mapData[j].Equals("0"))
                     continue;
 
+                if(mapData[j].Equals("Start")){
+                    cube.transform.position = new Vector3(x,1,z);
+                    continue;
+                }
+
                 string[] colorAndPosition = mapData[j].Split('_');
                 CreateInteractionObject(colorAndPosition[0],colorAndPosition[1], new Vector3(x,0,z));
                 Debug.Log(x.ToString() + "," + z.ToString());
@@ -122,13 +128,15 @@ public class MapPhasing : MonoBehaviour
 
     private void CreateInteractionObject(string  colorName,  string objectName, Vector3 createPosition){
         
-        int objectIndex = -1; // Button/0, Spike/1, Portal/2
+        int objectIndex = -1; // Spike/0, Portal/1
         int colorIndex = int.Parse(colorName);
+        createPosition.y = interactionObjectCreatePositions[2].position.y;
 
         switch(objectName){
             case "Button":
                 objectIndex = -1;
                 GameObject createdObject = Instantiate(buttons[colorIndex], createPosition, Quaternion.identity);                  
+                return;
             break;
 
             case "Spike":
@@ -144,9 +152,11 @@ public class MapPhasing : MonoBehaviour
             break;
         }
         
+
         if(objectIndex != -1){
             GameObject createdObject = Instantiate(interactionObject[objectIndex], createPosition, Quaternion.identity);
             createdObject.GetComponent<InteractionObject>().colorNumber = colorIndex;
+
 
         }else{
             Debug.Log("Can't find object, Invalid format name.");

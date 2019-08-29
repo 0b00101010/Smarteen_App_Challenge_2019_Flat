@@ -37,6 +37,15 @@ public class StageButton : MonoBehaviour
             PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString() + "_Star","false");
         }
 
+
+        //Image Change
+
+        if(!isUnlock){
+            if(isStar){}
+            else{}
+        }else {
+
+        }
     }
 
     public void Unlock(){

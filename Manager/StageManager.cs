@@ -12,13 +12,23 @@ public class StageManager : MonoBehaviour
     private MapPhasing phasing;
     [SerializeField]
 
-    [BoxGroup("Fields")]
+    [BoxGroup("Background")]
     private Image backgroundImage;
 
-    [BoxGroup("Fields")]
+    [BoxGroup("Background")]
+    [SerializeField]
+    private Image themeAdditionImage;
+
+    [BoxGroup("Background")]
+    [SerializeField]
+    private Image themeColorImage;
+    
+    [BoxGroup("Background")]
     [SerializeField]
     private Image blackImage;
 
+
+    [Space(10)]
     [BoxGroup("Fields")]
     [SerializeField]
     private Text limitText;
@@ -30,6 +40,15 @@ public class StageManager : MonoBehaviour
     [BoxGroup("Fields")]
     [SerializeField]
     private Sprite[] themeBackgrounds;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Color[] themeColor;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Sprite[] themeAddition;
+
     #endregion FIELDS
 
 
@@ -109,11 +128,15 @@ public class StageManager : MonoBehaviour
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
 
-        if(!stageType.Equals("Custom"))
+        if(!stageType.Equals("Custom")){
             backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
-        else
+            themeAdditionImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Addition");
+            themeColorImage.color = themeColor[theme];
+        }else{
             backgroundImage.sprite = themeBackgrounds[theme];
-        
+            themeAdditionImage.sprite = themeAddition[theme];
+            themeColorImage.color = themeColor[theme];
+        }
 
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
 
@@ -137,6 +160,29 @@ public class StageManager : MonoBehaviour
             moveCount = missionValue;
         }
         else if(missionType.Equals("Button_Excute")){
+        }
+
+        StartCoroutine(ImageFadeInOut());
+    }
+
+    private IEnumerator ImageFadeInOut(){
+        
+        WaitForSeconds waitingTime = new WaitForSeconds(0.1f);
+        WaitForSeconds repeatDelay = new WaitForSeconds(2.5f);
+        while(true){
+            for(int i = 0; i < 10; i++){
+                themeColorImage.color = new Color(themeColorImage.color.r, themeColorImage.color.g, themeColorImage.color.b, themeColorImage.color.a - 0.025f);
+                themeAdditionImage.color = new Color(themeAdditionImage.color.r,themeAdditionImage.color.g,themeAdditionImage.color.b,themeAdditionImage.color.a - 0.1f);
+                yield return waitingTime;
+            }   
+
+            for(int i = 0; i < 10; i++){
+                themeColorImage.color = new Color(themeColorImage.color.r, themeColorImage.color.g, themeColorImage.color.b, themeColorImage.color.a + 0.025f);
+                themeAdditionImage.color = new Color(themeAdditionImage.color.r,themeAdditionImage.color.g,themeAdditionImage.color.b,themeAdditionImage.color.a + 0.1f);
+                yield return waitingTime;
+            }     
+
+            yield return repeatDelay;
         }
     }
 

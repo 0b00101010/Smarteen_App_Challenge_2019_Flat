@@ -49,18 +49,20 @@ public class MapPhasing : MonoBehaviour
         mapDataFile = Resources.Load<TextAsset>("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
         Debug.Log("MapData/" + GameManager.instance.nextRound + "/0" + GameManager.instance.nextStageNumber.ToString());
         // 한 표식을 기점으로 오브젝트 데이타와 맵 내부 시스템 데이타로 구분하기
-        string[] fileData = mapDataFile.text.Split(new string[] {"-"}, System.StringSplitOptions.None);
+        string[] fileData = mapDataFile.text.Split(new string[] {"-"}, System.StringSplitOptions.RemoveEmptyEntries);
 
-        string[] frontData = fileData[0].Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries); // 인 게임 셋팅
-        string[] middleData = fileData[1].Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries); // 타일 정도 
-        string[] backData = fileData[2].Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries); // 오브젝트 정보
+        string[] frontData = fileData[0].Split(new string[] {"\r\n"}, System.StringSplitOptions.RemoveEmptyEntries); // 인 게임 셋팅
+        string[] middleData = fileData[1].Split(new string[] {"\r\n"}, System.StringSplitOptions.RemoveEmptyEntries); // 타일 정도 
+        string[] backData = fileData[2].Split(new string[] {"\r\n"}, System.StringSplitOptions.RemoveEmptyEntries); // 오브젝트 정보
         string[] mapData;
         
         for(int i =0 ; i < frontData.Length; i++){
-            mapDatas.Add(frontData[i]);
-            mapDatas[i].Trim();
+            if(frontData[i] != ""){
+                mapDatas.Add(frontData[i]);
+                // mapDatas[mapDatas.Count-1].Replace("\r","");
+            }
         }
-            
+
         for(int i = 0; i < mapDatas.Count; i++){
             string[] gameSystemInformation = mapDatas[i].Split(':'); 
             MapInformationSetting(gameSystemInformation[0], gameSystemInformation[1]);
@@ -71,13 +73,15 @@ public class MapPhasing : MonoBehaviour
         mapDatas.Clear();
  
         for(int i = 0; i < middleData.Length; i++){         
-            mapDatas.Add(middleData[i]);
-            mapDatas[i].Trim();
+            if(middleData[i] != ""){
+                mapDatas.Add(middleData[i]);
+                // mapDatas[mapDatas.Count-1].Replace("\r","");
+            }
             
         }
         
         // 타일 설치
-        for(int i = 1 ; i< mapDatas.Count; i++){
+        for(int i = 0 ; i< mapDatas.Count; i++){
             mapData = mapDatas[i].Split(cutChar);
             x++;
             for(int j = 0; j < mapData.Length; j++){
@@ -96,11 +100,15 @@ public class MapPhasing : MonoBehaviour
         mapDatas.Clear();
         
         for(int i = 0; i < backData.Length; i++){                 
-            mapDatas.Add(backData[i]);
+            if(backData[i] != ""){
+                mapDatas.Add(backData[i]);
+                // mapDatas[mapDatas.Count-1].Replace("\r","");
+            }
+
         }
 
         // 오브젝트 생성
-        for(int i = 1 ; i < mapDatas.Count; i++){
+        for(int i = 0 ; i < mapDatas.Count; i++){
             mapData = mapDatas[i].Split(cutChar);
             x++;
             

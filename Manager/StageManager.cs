@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class StageManager : MonoBehaviour
 {
 
@@ -31,11 +32,11 @@ public class StageManager : MonoBehaviour
     [Space(10)]
     [BoxGroup("Fields")]
     [SerializeField]
-    private Text limitText;
+    private TextMeshProUGUI limitText;
 
     [BoxGroup("Fields")]
     [SerializeField]
-    private Text missionText;
+    private TextMeshProUGUI missionText;
 
     [BoxGroup("Fields")]
     [SerializeField]
@@ -91,12 +92,12 @@ public class StageManager : MonoBehaviour
         set {
                 moveCount = value;
                 if(isLimitTypeMoveCount)
-                    limitText.text = moveCount.ToString();
+                    limitText.text = "Move Count : " + moveCount.ToString();
                 if(isLimitTypeMoveCount && moveCount <= 0)
                     GameEnd();
 
                 if(isMissionTypeMoveCount)
-                    missionText.text = moveCount.ToString();
+                    missionText.text = "Move Count : " + moveCount.ToString();
                 if(isMissionTypeMoveCount && moveCount <= 0)
                     missionClear = false;
             }
@@ -118,9 +119,6 @@ public class StageManager : MonoBehaviour
     }
 
     private void Start() {
-
-
-
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
         phasing = gameObject.GetComponent<MapPhasing>() ?? null;
         phasing?.Phasing();
@@ -138,6 +136,11 @@ public class StageManager : MonoBehaviour
             themeColorImage.color = themeColor[theme];
         }
 
+        GameStart();
+    }
+
+
+    private void GameStart(){
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
 
 
@@ -152,6 +155,7 @@ public class StageManager : MonoBehaviour
 
         if(missionType.Equals("Time")){
             missionClear = true;
+            floatTimer = missionValue;
             StartCoroutine(GameTimer());                
         }
         else if(missionType.Equals("MoveCount")){
@@ -164,7 +168,6 @@ public class StageManager : MonoBehaviour
 
         StartCoroutine(ImageFadeInOut());
     }
-
     private IEnumerator ImageFadeInOut(){
         
         WaitForSeconds waitingTime = new WaitForSeconds(0.1f);
@@ -193,10 +196,10 @@ public class StageManager : MonoBehaviour
             floatTimer -= Time.deltaTime;
             
             if(limitType.Equals("Time"))
-                limitText.text = floatTimer.ToString("N2");
+                limitText.text = "Time : " + floatTimer.ToString("N2");
 
             else if(missionType.Equals("Time"))
-                missionText.text = floatTimer.ToString("N2");
+                missionText.text = "Time : " + floatTimer.ToString("N2");
 
             if(floatTimer < 0){
                 

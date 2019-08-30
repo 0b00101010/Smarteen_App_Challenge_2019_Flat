@@ -97,7 +97,6 @@ public class MapPhasing : MonoBehaviour
         
         for(int i = 0; i < backData.Length; i++){                 
             mapDatas.Add(backData[i]);
-            mapDatas[i].Trim();
         }
 
         // 오브젝트 생성
@@ -107,26 +106,22 @@ public class MapPhasing : MonoBehaviour
             
             for(int j = 0; j < mapData.Length; j++){
             
-                Debug.Log(mapData[j]);
+                Debug.Log(j + "_"+ mapData[j]);
                 z--;
-
-                if(mapData[j].Equals("0")){
-                    Debug.Log(x + "," + z);
-                    continue;
+                if(mapData[j].Equals("0") || mapData[j].Equals(0)){
+                    Debug.Log("[Zero] :" + x + "," + z);
                 }
-
-                if(mapData[j].Equals("Start")){
+                else if(mapData[j].Equals("Start")){
                     cube.transform.position = new Vector3(x,1.0f,z);
-                    Debug.Log("StartPosition");
-                    Debug.Log(x + "," + z);
-                    continue;
+                    Debug.Log("[StartPosition] :" + x + "," + z);
                 }
+                else{
+                    string[] colorAndPosition = mapData[j].Split('_');
+                    CreateInteractionObject(colorAndPosition[0],colorAndPosition[1], new Vector3(x,0,z));
+                    //Debug.Log(x.ToString() + "," + z.ToString());
 
-                string[] colorAndPosition = mapData[j].Split('_');
-                CreateInteractionObject(colorAndPosition[0],colorAndPosition[1], new Vector3(x,0,z));
-                //Debug.Log(x.ToString() + "," + z.ToString());
-
-                Debug.Log(x + "," + z);
+                    Debug.Log("[Object] :" + x + "," + z);
+                }
             }
             z = -1;
         }        

@@ -25,13 +25,17 @@ public class InteractionObject : MonoBehaviour
         if(materialsCtrl != null)
             gameObject.transform.GetComponent<MeshRenderer>().material = materialsCtrl.GetColorMaterials(colorNumber) ?? gameObject.transform.GetComponent<MeshRenderer>().material;
     }
-
+    protected void SetRay(){
+        Vector3 pos = new Vector3(gameObject.transform.position.x ,-2, gameObject.transform.position.z);
+        ray.origin = pos;
+        ray.direction = Vector3.up;
+    }
     protected virtual void Interaction() { }
 
     protected int GetColorIndex()
     {
         RaycastHit hit;
-
+        
        if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Cube")))
         {
             if (hit.collider != null && hit.collider.CompareTag("Side"))

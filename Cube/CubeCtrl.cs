@@ -111,7 +111,6 @@ public class CubeCtrl : MonoBehaviour
     }
     private IEnumerator MoveAndRotate()
     {
-        CubeMoveObserver.Notify();
 
         if (!DetectedWall()){
         // colorState.CurColor.ColorDebug();
@@ -121,7 +120,7 @@ public class CubeCtrl : MonoBehaviour
                 yield return null;
             }
             isMove = false;
-
+            CubeMoveObserver.Notify();
         }
         else {
             isMove = false;

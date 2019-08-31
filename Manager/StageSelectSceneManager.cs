@@ -13,7 +13,6 @@ public class StageSelectSceneManager : MonoBehaviour
     private Image blackBackground;
     
     private int selectStage = 0;
-    
     private void Start(){
 
         StartCoroutine(InitCoroutine());
@@ -40,7 +39,6 @@ public class StageSelectSceneManager : MonoBehaviour
         }
     }
     
-
 
     public IEnumerator FadeIn(){
         blackBackground.gameObject.SetActive(true);

@@ -114,21 +114,21 @@ public class MapPhasing : MonoBehaviour
             
             for(int j = 0; j < mapData.Length; j++){
             
-                Debug.Log(j + "_"+ mapData[j]);
+                // Debug.Log(j + "_"+ mapData[j]);
                 z--;
                 if(mapData[j].Equals("0") || mapData[j].Equals(0)){
-                    Debug.Log("[Zero] :" + x + "," + z);
+                    // Debug.Log("[Zero] :" + x + "," + z);
                 }
                 else if(mapData[j].Equals("Start")){
                     cube.transform.position = new Vector3(x,1.0f,z);
-                    Debug.Log("[StartPosition] :" + x + "," + z);
+                    // Debug.Log("[StartPosition] :" + x + "," + z);
                 }
                 else{
                     string[] colorAndPosition = mapData[j].Split('_');
                     CreateInteractionObject(colorAndPosition[0],colorAndPosition[1], new Vector3(x,0,z));
                     //Debug.Log(x.ToString() + "," + z.ToString());
 
-                    Debug.Log("[Object] :" + x + "," + z);
+                    // Debug.Log("[Object] :" + x + "," + z);
                 }
             }
             z = -1;

@@ -28,6 +28,23 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Image blackImage;
 
+    [Space(10)]
+    [BoxGroup("Result")]
+    [SerializeField]
+    private Canvas resultCanvas;
+
+
+    [BoxGroup("Result")]
+    [SerializeField]
+    private Image clearText;
+
+    [BoxGroup("Result")]
+    [SerializeField]
+    private Image resultBackgroundImage;
+
+    [BoxGroup("Result")]
+    [SerializeField]
+    private Image[] buttonsImage;
 
     [Space(10)]
     [BoxGroup("Fields")]
@@ -37,6 +54,10 @@ public class StageManager : MonoBehaviour
     [BoxGroup("Fields")]
     [SerializeField]
     private TextMeshProUGUI missionText;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Image missionTextBox;
 
     [BoxGroup("Fields")]
     [SerializeField]
@@ -50,9 +71,15 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Sprite[] themeAddition;
 
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Sprite[] clearTextImages;
+
+    [BoxGroup("Fields")]
+    [SerializeField]
+    private Sprite[] resultBackgroundImages;
+
     #endregion FIELDS
-
-
     #region GAME_SETTING
     [Space(10)]
     [Header("Game Information Setting")]
@@ -92,12 +119,12 @@ public class StageManager : MonoBehaviour
         set {
                 moveCount = value;
                 if(isLimitTypeMoveCount)
-                    limitText.text = "Move Count : " + moveCount.ToString();
+                    limitText.text = moveCount.ToString() + "회";
                 if(isLimitTypeMoveCount && moveCount <= 0)
                     GameEnd();
 
                 if(isMissionTypeMoveCount)
-                    missionText.text = "Move Count : " + moveCount.ToString();
+                    missionText.text = moveCount.ToString() + "회";
                 if(isMissionTypeMoveCount && moveCount <= 0)
                     missionClear = false;
             }
@@ -125,7 +152,9 @@ public class StageManager : MonoBehaviour
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
-
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
+        for(int i = 0; i < buttons.Length; i++)
+            buttons[i].GetComponent<ColorButton>().GetWall();
         if(!stageType.Equals("Custom")){
             backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
             themeAdditionImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Addition");
@@ -150,7 +179,10 @@ public class StageManager : MonoBehaviour
         }    
         else if(limitType.Equals("MoveCount")){
             isLimitTypeMoveCount = true;
-            moveCount = limitValue;
+            MoveCount = limitValue;
+        }
+        else if (limitType.Equals("None")){
+            limitText.text = "";
         }
 
         if(missionType.Equals("Time")){
@@ -159,12 +191,17 @@ public class StageManager : MonoBehaviour
             StartCoroutine(GameTimer());                
         }
         else if(missionType.Equals("MoveCount")){
+            MoveCount = missionValue;
             missionClear = true;
             isMissionTypeMoveCount = true;
-            moveCount = missionValue;
         }
         else if(missionType.Equals("Button_Excute")){
         }
+        else if(missionType.Equals("None")){
+            missionText.text = "";
+            missionTextBox.enabled = false;
+        }
+        
 
         StartCoroutine(ImageFadeInOut());
     }
@@ -196,10 +233,10 @@ public class StageManager : MonoBehaviour
             floatTimer -= Time.deltaTime;
             
             if(limitType.Equals("Time"))
-                limitText.text = "Time : " + floatTimer.ToString("N2");
+                limitText.text = floatTimer.ToString("N0") + "초";
 
             else if(missionType.Equals("Time"))
-                missionText.text = "Time : " + floatTimer.ToString("N2");
+                missionText.text = floatTimer.ToString("N0") + "초";
 
             if(floatTimer < 0){
                 
@@ -242,7 +279,15 @@ public class StageManager : MonoBehaviour
 
     [Button("GameEnd")]
     public void GameEnd(){
-        StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.2f));
+
+        resultBackgroundImage.sprite = resultBackgroundImages[1];
+        clearText.sprite = clearTextImages[1];
+        StartCoroutine(ResultCoroutine());
+        buttonsImage[0].GetComponent<Button>().interactable = false;
+        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString()))){
+            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString(), "false");
+        }
+
         if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star"))){
             PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","false");   
         } 
@@ -254,7 +299,9 @@ public class StageManager : MonoBehaviour
     }
     [Button("GameClear")]    
     public void GameClear(){
-        
+        resultBackgroundImage.sprite = resultBackgroundImages[0];
+        clearText.sprite = clearTextImages[0];
+        StartCoroutine(ResultCoroutine());        
         if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star")) && missionClear){
             GameManager.instance.Star += GetMapStar();
             PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","true");   
@@ -262,6 +309,17 @@ public class StageManager : MonoBehaviour
 
         PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString(),"true");
     
+    }
+
+    private IEnumerator ResultCoroutine(){
+        resultCanvas.gameObject.SetActive(true);
+        yield return StartCoroutine(GameManager.instance.IFadeIn(resultBackgroundImage,0.5f));
+        
+        StartCoroutine(GameManager.instance.IFadeIn(clearText,0.5f));
+        for(int i = 0; i < buttonsImage.Length;i ++)
+            StartCoroutine(GameManager.instance.IFadeIn(buttonsImage[i],0.5f));
+
+        
     }
 
     private int GetMapStar(){

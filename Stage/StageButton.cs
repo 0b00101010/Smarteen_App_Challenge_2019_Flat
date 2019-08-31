@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class StageButton : MonoBehaviour
 {   
 
+    [SerializeField]
     private bool isClear;
 
     public bool IsClear{get => isClear; set => isClear = value;}
@@ -41,8 +42,10 @@ public class StageButton : MonoBehaviour
             PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString() + "_Star","false");
         }
 
-        if(isUnlock)
+        if(isUnlock){
             thisButton.interactable = true;
+            nextStage.Unlock();
+        }
         else
             thisButton.interactable = false;
 
@@ -60,8 +63,14 @@ public class StageButton : MonoBehaviour
         }
     }
 
+    public void Clear(){
+        PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString(),"true"); 
+        nextStage.Unlock();     
+    }
+
     public void Unlock(){
         isUnlock = true;
-        PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString(),"ture");    
+        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UnLock");
+        thisButton.interactable = true;
     }
 }

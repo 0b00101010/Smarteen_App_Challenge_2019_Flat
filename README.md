@@ -15,10 +15,10 @@ Flat: Cube&Color는 6가지 색으로 구성된 큐브를 굴리며 진행해나
 
 ■ 건의 사항 및 버그 제보 / 문의
 
-> e-mail
+**e-mail**
 * Cubecolorflat@gmail.com
 * jyw0ff1c1a1acc0unt@gmail.com - 문의
 * twilivez@gmail.com - 버그 제보
 
-> H.P
+**H.P**
 * 010 - 3528 - 3340

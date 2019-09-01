@@ -191,9 +191,9 @@ public class StageManager : MonoBehaviour
             StartCoroutine(GameTimer());                
         }
         else if(missionType.Equals("MoveCount")){
-            MoveCount = missionValue;
-            missionClear = true;
             isMissionTypeMoveCount = true;
+            missionClear = true;
+            MoveCount = missionValue;
         }
         else if(missionType.Equals("Button_Excute")){
         }
@@ -294,8 +294,25 @@ public class StageManager : MonoBehaviour
 
         
     }
+
+    [Button("Retry")]
     public void Retry(){
+        StartCoroutine(RetryCouroutine());
+    }
+
+    public void ReturnToMenu(){
+        StartCoroutine(ReturnToMenuCoroutine());
+    }
+
+    private IEnumerator ReturnToMenuCoroutine(){
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.25f));
+        SceneManager.LoadScene("01.StageSelectScene");
+    }
+
+    private IEnumerator RetryCouroutine(){
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.25f));        
         SceneManager.LoadScene("02.InGame");
+
     }
     [Button("GameClear")]    
     public void GameClear(){

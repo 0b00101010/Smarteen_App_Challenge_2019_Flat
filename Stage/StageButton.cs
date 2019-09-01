@@ -44,7 +44,7 @@ public class StageButton : MonoBehaviour
 
         if(isUnlock){
             thisButton.interactable = true;
-            nextStage.Unlock();
+            nextStage?.Unlock();
         }
         else
             thisButton.interactable = false;

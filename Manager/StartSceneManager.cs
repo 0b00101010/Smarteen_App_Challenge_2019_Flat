@@ -9,16 +9,50 @@ public class StartSceneManager : MonoBehaviour
     private Image blackImage;
 
     [SerializeField]
+    private Image backgroundWhite;
+
+    [SerializeField]
     private Canvas settingCanvas;
     private Ray ray = new Ray();
     [SerializeField]
     private Button bgmButton;
     [SerializeField]
     private Button sfxButton;
+    
+    private int frontMoveCount;
 
+    private int FrontMoveCount { 
+        get => frontMoveCount; 
+        set{       
+            Debug.Log(value);
+
+            if(frontMoveCount + value > -2 && frontMoveCount + value < 2)
+                return;
+            frontMoveCount = value;
+            
+            if(frontMoveCount == -1)
+                StageSelectScene();
+        }
+    } 
+
+    private int rightMoveCount;
+
+    private int RightMoveCount{
+        get => rightMoveCount;
+        set{
+            Debug.Log(value);
+            if(value > -2 && value < 2)
+                return;
+            rightMoveCount = value;
+            
+            if(rightMoveCount == 1)
+                SettingButton();
+        }
+    }
+    
     private void Start(){
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
-                
+        StartCoroutine(WhiteFadeInOut());
         if(GameManager.instance.soundManager.BGMOnOff)
             bgmButton.image.color = new Color(1f,1f,1f,1f);
             
@@ -30,6 +64,8 @@ public class StartSceneManager : MonoBehaviour
             
         else 
             sfxButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
+
+
     }
     private void Update(){
         if(blackImage.color.a < 0.005f)
@@ -38,7 +74,53 @@ public class StartSceneManager : MonoBehaviour
         if(settingCanvas.gameObject.activeInHierarchy && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
             CastRay();
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            FrontMoveCount++;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            FrontMoveCount--;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            RightMoveCount--;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            RightMoveCount++;
+        }
+
+        // #endif
+
+        // #if UNITY_ANDROID
+       
         
+    }
+
+    private IEnumerator WhiteFadeInOut(){
+        WaitForSeconds waitingTime = new WaitForSeconds(0.025f);
+        WaitForSeconds waitingTime2 = new WaitForSeconds(1.5f);
+        while(true){
+            for(int i = 0; i < 30; i++){
+                backgroundWhite.color = new Color(backgroundWhite.color.r,backgroundWhite.color.g,backgroundWhite.color.b ,backgroundWhite.color.a + 0.01f);
+                yield return waitingTime;
+            }
+
+            yield return waitingTime2;
+
+            for(int i = 0; i < 30; i++){
+                backgroundWhite.color = new Color(backgroundWhite.color.r,backgroundWhite.color.g,backgroundWhite.color.b,backgroundWhite.color.a - 0.01f);
+                yield return waitingTime;
+            }
+            yield return waitingTime2;
+
+        }
+
     }
 
     private void CastRay(){

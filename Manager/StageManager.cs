@@ -112,6 +112,9 @@ public class StageManager : MonoBehaviour
     private bool isLimitTypeMoveCount = false;
     private bool isMissionTypeMoveCount = false;
 
+    private ParticleSystem backgroundParticle;
+
+
     [SerializeField]
     private bool missionClear;
     public int MoveCount {
@@ -159,10 +162,12 @@ public class StageManager : MonoBehaviour
             backgroundImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Background");
             themeAdditionImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Addition");
             themeColorImage.color = themeColor[theme];
+            backgroundParticle = Resources.Load<ParticleSystem>("StageObject/" + GameManager.instance.nextRound + "/BackgroundParticle");
         }else{
             backgroundImage.sprite = themeBackgrounds[theme];
             themeAdditionImage.sprite = themeAddition[theme];
             themeColorImage.color = themeColor[theme];
+            backgroundParticle = Resources.Load<ParticleSystem>("StageObject/" + GameManager.instance.nextRound + "/BackgroundParticle");
         }
 
         GameStart();
@@ -201,7 +206,7 @@ public class StageManager : MonoBehaviour
             missionText.text = "";
             missionTextBox.enabled = false;
         }
-        
+        Instantiate(backgroundParticle, new Vector3(0,0,0), backgroundParticle.transform.rotation);
 
         StartCoroutine(ImageFadeInOut());
     }

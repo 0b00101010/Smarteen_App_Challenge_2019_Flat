@@ -7,6 +7,9 @@ public class CubeCtrl : MonoBehaviour
     [SerializeField]
     private GameObject gameCube;
 
+    [SerializeField]
+    private int movePower = 1;
+
     private Ray ray;
     private bool isMove = false;
     private Vector3 rotateVector;
@@ -102,7 +105,7 @@ public class CubeCtrl : MonoBehaviour
        ray.direction = moveVector;
        RaycastHit hit;
        
-       if(Physics.Raycast(ray,out hit, 1, LayerMask.GetMask("Wall")))
+       if(Physics.Raycast(ray,out hit, movePower, LayerMask.GetMask("Wall")))
         {
             return true;
         }
@@ -116,11 +119,11 @@ public class CubeCtrl : MonoBehaviour
         // colorState.CurColor.ColorDebug();
             for(int i  = 0 ; i < 10; i++){
                 gameCube.transform.Rotate(rotateVector * 9, Space.World);
-                gameObject.transform.Translate(moveVector / 10, Space.World);
+                gameObject.transform.Translate((moveVector / 10) * movePower, Space.World);
                 yield return null;
             }
             isMove = false;
-            CubeMoveObserver.Notify();
+            CubeMoveObserver?.Notify();
         }
         else {
             isMove = false;

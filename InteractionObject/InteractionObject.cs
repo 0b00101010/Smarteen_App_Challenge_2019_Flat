@@ -5,6 +5,11 @@ using NaughtyAttributes;
 
 public class InteractionObject : MonoBehaviour
 {
+
+    [SerializeField]
+    private ParticleSystem interactionParticle;
+
+
     [Header("Color Number")]
     [Dropdown("colorNumbers")]
     [SerializeField]

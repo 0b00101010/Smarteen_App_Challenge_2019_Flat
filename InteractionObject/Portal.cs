@@ -19,6 +19,10 @@ public class Portal : InteractionObject
         }
     }
 
+    protected override void Interaction(){
+        StageManager.instance.GameClear();
+    }
+
     private IEnumerator CollisionWait()
     {
         yield return new WaitForSeconds(0.1f);

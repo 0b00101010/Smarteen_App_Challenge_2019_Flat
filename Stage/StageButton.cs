@@ -42,12 +42,13 @@ public class StageButton : MonoBehaviour
             PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString() + "_Star","false");
         }
 
-        if(isUnlock){
+        if(isUnlock)
             thisButton.interactable = true;
-            nextStage?.Unlock();
-        }
         else
             thisButton.interactable = false;
+
+        if(isClear)
+            nextStage?.Unlock();
 
         //Image Change
 

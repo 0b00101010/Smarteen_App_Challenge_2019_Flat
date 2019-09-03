@@ -26,7 +26,7 @@ public class StartSceneManager : MonoBehaviour
         set{       
             Debug.Log(value);
 
-            if(frontMoveCount + value > -2 && frontMoveCount + value < 2)
+            if(!(value > -2 && value < 2))
                 return;
             frontMoveCount = value;
             
@@ -41,7 +41,7 @@ public class StartSceneManager : MonoBehaviour
         get => rightMoveCount;
         set{
             Debug.Log(value);
-            if(value > -2 && value < 2)
+            if(!(value > -2 && value < 2))
                 return;
             rightMoveCount = value;
             

@@ -113,7 +113,7 @@ public class StageManager : MonoBehaviour
     private bool isMissionTypeMoveCount = false;
 
     private ParticleSystem backgroundParticle;
-
+    private IEnumerator timerCoroutine;
 
     [SerializeField]
     private bool missionClear;
@@ -152,6 +152,7 @@ public class StageManager : MonoBehaviour
         GameObject[] sides = GameObject.FindGameObjectsWithTag("Side");
         phasing = gameObject.GetComponent<MapPhasing>() ?? null;
         phasing?.Phasing();
+        timerCoroutine = GameTimer();
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
@@ -180,7 +181,7 @@ public class StageManager : MonoBehaviour
 
         if(limitType.Equals("Time")){
             floatTimer = (float)limitValue;
-            StartCoroutine(GameTimer());
+            StartCoroutine(timerCoroutine);
         }    
         else if(limitType.Equals("MoveCount")){
             isLimitTypeMoveCount = true;
@@ -193,7 +194,7 @@ public class StageManager : MonoBehaviour
         if(missionType.Equals("Time")){
             missionClear = true;
             floatTimer = missionValue;
-            StartCoroutine(GameTimer());                
+            StartCoroutine(timerCoroutine);                
         }
         else if(missionType.Equals("MoveCount")){
             isMissionTypeMoveCount = true;
@@ -282,23 +283,6 @@ public class StageManager : MonoBehaviour
     }
 
 
-    [Button("GameEnd")]
-    public void GameEnd(){
-
-        resultBackgroundImage.sprite = resultBackgroundImages[1];
-        clearText.sprite = clearTextImages[1];
-        StartCoroutine(ResultCoroutine());
-        buttonsImage[0].GetComponent<Button>().interactable = false;
-        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString()))){
-            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString(), "false");
-        }
-
-        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star"))){
-            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","false");   
-        } 
-
-        
-    }
 
     [Button("Retry")]
     public void Retry(){
@@ -319,10 +303,23 @@ public class StageManager : MonoBehaviour
         SceneManager.LoadScene("02.InGame");
 
     }
+
+    public void NextGame(){
+        StartCoroutine(NextGameCoroutine());
+    }
+
+    private IEnumerator NextGameCoroutine(){
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.25f));
+        GameManager.instance.nextStageNumber++;
+        SceneManager.LoadScene("02.InGame");
+    }
+
     [Button("GameClear")]    
     public void GameClear(){
         resultBackgroundImage.sprite = resultBackgroundImages[0];
         clearText.sprite = clearTextImages[0];
+        if(GameManager.instance.nextStageNumber.Equals(14))
+            buttonsImage[0].GetComponent<Button>().interactable = false;
         StartCoroutine(ResultCoroutine());        
         if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star")) && missionClear){
             GameManager.instance.Star += GetMapStar();
@@ -333,8 +330,27 @@ public class StageManager : MonoBehaviour
     
     }
 
+    [Button("GameEnd")]
+    public void GameEnd(){
+
+        resultBackgroundImage.sprite = resultBackgroundImages[1];
+        clearText.sprite = clearTextImages[1];
+        StartCoroutine(ResultCoroutine());
+        buttonsImage[0].GetComponent<Button>().interactable = false;
+        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString()))){
+            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString(), "false");
+        }
+
+        if(!bool.Parse(PlayerPrefs.GetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star"))){
+            PlayerPrefs.SetString(GameManager.instance.nextRound + "_" + GameManager.instance.nextStageNumber.ToString() + "_Star","false");   
+        } 
+
+        
+    }
+
     private IEnumerator ResultCoroutine(){
         resultCanvas.gameObject.SetActive(true);
+        StopCoroutine(timerCoroutine);
         yield return StartCoroutine(GameManager.instance.IFadeIn(resultBackgroundImage,0.5f));
         
         StartCoroutine(GameManager.instance.IFadeIn(clearText,0.5f));

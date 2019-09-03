@@ -120,6 +120,7 @@ public class CubeCtrl : MonoBehaviour
             for(int i  = 0 ; i < 10; i++){
                 gameCube.transform.Rotate(rotateVector * 9, Space.World);
                 gameObject.transform.Translate((moveVector / 10) * movePower, Space.World);
+                
                 yield return null;
             }
             isMove = false;

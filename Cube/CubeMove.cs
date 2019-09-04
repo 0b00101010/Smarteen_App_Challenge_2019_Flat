@@ -10,11 +10,12 @@ public class CubeMove : MonoBehaviour{
     private GameObject gameCube;
 
     [SerializeField]
-    private int movePower = 1;
+    private int movePower;
 
     private Ray ray;
 
-    protected bool isMove = false;
+    private bool isMove = false;
+    public bool IsMove { get => isMove; }
     private Vector3 rotateVector;
     private Vector3 moveVector;
 
@@ -26,14 +27,14 @@ public class CubeMove : MonoBehaviour{
         get => cameraNumber;
 
         set {
+            cameraNumber = value;
             
-            if(value > 3)
+            if(cameraNumber > 3)
                 cameraNumber = 0;
             
-            else if(value < 0)
+            else if(cameraNumber < 0)
                 cameraNumber = 3;
-            else
-                cameraNumber = value;
+            
         }
     }
 
@@ -54,25 +55,21 @@ public class CubeMove : MonoBehaviour{
 
     public void CubeUp(){
         Up.Excute(out moveVector, out rotateVector);
-        isMove = true;        
         StartCoroutine(MoveAndRotate());
     }
 
     public void CubeDown(){
         Down.Excute(out moveVector, out rotateVector);
-        isMove = true;        
         StartCoroutine(MoveAndRotate());
     }
 
     public void CubeLeft(){
         Left.Excute(out moveVector, out rotateVector);
-        isMove = true;        
         StartCoroutine(MoveAndRotate());
     }
 
     public void CubeRight(){
         Right.Excute(out moveVector,out rotateVector);
-        isMove = true;        
         StartCoroutine(MoveAndRotate());
     }
 
@@ -89,11 +86,11 @@ public class CubeMove : MonoBehaviour{
         }
         return false;
     }
-    protected IEnumerator MoveAndRotate()
+    private IEnumerator MoveAndRotate()
     {
+        isMove = true;
 
         if (!DetectedWall()){
-        // colorState.CurColor.ColorDebug();
             for(int i  = 0 ; i < 10; i++){
                 gameCube.transform.Rotate(rotateVector * 9, Space.World);
                 gameObject.transform.Translate((moveVector / 10) * movePower, Space.World);
@@ -111,7 +108,7 @@ public class CubeMove : MonoBehaviour{
     }
 
     public void CameraTurnLeft(){
-        cameraNumber++;
+        CameraNumber++;
         ChangeCamera();
 
         ICommand command = Up;
@@ -121,7 +118,7 @@ public class CubeMove : MonoBehaviour{
         Right = command;
     }
     public void CameraTurnRight(){
-        cameraNumber--;
+        CameraNumber--;
         ChangeCamera();
 
         ICommand command = Up;
@@ -156,7 +153,6 @@ public class MoveUp : CubeMove, ICommand
     public void Excute(out Vector3 moveVector, out Vector3 rotateVector){
         moveVector = Vector3.forward;
         rotateVector = Vector3.right;
-        Debug.Log("Up");
     }
 }
 public class MoveDown : CubeMove, ICommand
@@ -164,7 +160,6 @@ public class MoveDown : CubeMove, ICommand
     public void Excute(out Vector3 moveVector, out Vector3 rotateVector){
         moveVector = Vector3.back;
         rotateVector = Vector3.left;
-        Debug.Log("Down");
     }
 }
 
@@ -173,7 +168,6 @@ public class MoveLeft : CubeMove, ICommand
     public void Excute(out Vector3 moveVector, out Vector3 rotateVector){
         moveVector = Vector3.left;
         rotateVector = Vector3.forward;
-        Debug.Log("Left");
     }
 }
 
@@ -182,6 +176,5 @@ public class MoveRight : CubeMove, ICommand
     public void Excute(out Vector3 moveVector, out Vector3 rotateVector){
         moveVector = Vector3.right;
         rotateVector = Vector3.back;
-        Debug.Log("Right");
     }
 }

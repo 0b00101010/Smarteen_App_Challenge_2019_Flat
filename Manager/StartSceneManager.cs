@@ -68,9 +68,12 @@ public class StartSceneManager : MonoBehaviour
         
         RaycastHit hit; 
         if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
-           if(hit.collider == null)
-               settingCanvas.gameObject.SetActive(false);
-        }  
+            if(hit.collider == null)
+                settingCanvas.gameObject.SetActive(false);
+        }
+        else{
+            settingCanvas.gameObject.SetActive(false);
+        }
 
         
     }

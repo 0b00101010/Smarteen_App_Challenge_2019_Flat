@@ -93,6 +93,9 @@ public class CubeCtrl : MonoBehaviour
     #endregion Ver_0.1
    
     private void Update(){
+        if(MoveCommand.IsMove)
+            return;
+
         if (Input.GetKeyDown(KeyCode.W)){
             MoveCommand.CubeUp();
         }
@@ -129,15 +132,13 @@ public class CubeCtrl : MonoBehaviour
             }
             else if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
                 MoveCommand.CubeRight();
-            }   
-        }else if(Input.touchCount > 1){
-            if(GameManager.instance.touchManager.SwipeDirection.x < 0){
+            }
+            if(GameManager.instance.touchManager.MultiSwipeDirection.x < 0){
                 MoveCommand.CameraTurnLeft();
-            }else if(GameManager.instance.touchManager.SwipeDirection.x > 0){
+            }else if(GameManager.instance.touchManager.MultiSwipeDirection.x > 0){
                 MoveCommand.CameraTurnRight();
             }
-
-        }
+        }  
     }
 
     public void SubscribeObserver(IObserver observer){

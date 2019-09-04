@@ -11,12 +11,22 @@ public class StageSelectSceneManager : MonoBehaviour
 
     [SerializeField]
     private Image blackBackground;
-    
+    [SerializeField]
+    private Image background;
+
     private int selectStage = 0;
+
+    public int SelectStage {
+        get => selectStage;
+        set {
+            selectStage = value;
+            background.sprite = Resources.Load<Sprite>("UI/Round_0" + selectStage.ToString() + "/Background");        
+        }
+    }
     private void Start(){
 
         StartCoroutine(InitCoroutine());
-
+        SelectStage = 0;
         for(int i = 0; i < stages.Length; i++){
             stages[i].transform.Translate(new Vector2(i * 80,0));
         }
@@ -26,16 +36,18 @@ public class StageSelectSceneManager : MonoBehaviour
         blackBackground.gameObject.SetActive(false);
     }
     private void Update(){
-        if((Input.GetKeyDown(KeyCode.A) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[0].transform.position.x < 0){
+        if((Input.GetKeyDown(KeyCode.A) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[0].transform.position.x < 0 && selectStage > 0){
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector2(80f,0));
             }
+            SelectStage--;
         }
-        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x > 0) && stages[stages.Length - 1].transform.position.x > 0)
+        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x > 0) && stages[stages.Length - 1].transform.position.x > 0 && selectStage < stages.Length)
         {            
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector3(-80f,0));
             }
+            SelectStage++;
         }
     }
     

@@ -11,9 +11,13 @@ public class StageManager : MonoBehaviour
     #region FIELDS
     public static StageManager instance;
     private MapPhasing phasing;
+
+    [BoxGroup("Cube")]
     [SerializeField]
+    private CubeCtrl cube;
 
     [BoxGroup("Background")]
+    [SerializeField]
     private Image backgroundImage;
 
     [BoxGroup("Background")]
@@ -204,6 +208,7 @@ public class StageManager : MonoBehaviour
         else if(missionType.Equals("Button_Excute")){
         }
         else if(missionType.Equals("None")){
+            missionClear = true;
             missionText.text = "";
             missionTextBox.enabled = false;
         }
@@ -349,6 +354,7 @@ public class StageManager : MonoBehaviour
     }
 
     private IEnumerator ResultCoroutine(){
+        cube.enabled = false;
         resultCanvas.gameObject.SetActive(true);
         StopCoroutine(timerCoroutine);
         yield return StartCoroutine(GameManager.instance.IFadeIn(resultBackgroundImage,0.5f));

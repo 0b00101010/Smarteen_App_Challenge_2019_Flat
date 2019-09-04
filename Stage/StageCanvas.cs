@@ -35,7 +35,7 @@ public class StageCanvas : MonoBehaviour{
         }
 
 
-        getStarText.text = getStar.ToString() + " / " + maxStar.ToString();
+        // getStarText.text = getStar.ToString() + " / " + maxStar.ToString();
     }
 
     public void OpenButtons(){
@@ -48,10 +48,10 @@ public class StageCanvas : MonoBehaviour{
         stageButtonCanvas.gameObject.SetActive(false);
     }
 
-    private void Update(){
-        if(stageButtonCanvas.gameObject.activeInHierarchy && (Input.GetMouseButtonDown(0) || GameManager.instance.touchManager.IsTouch))
-            CastRay();
-    }
+    // private void Update(){
+    //     //if(stageButtonCanvas.gameObject.activeInHierarchy && (Input.GetMouseButtonDown(0) || GameManager.instance.touchManager.IsTouch))
+    //         CastRay();
+    // }
     
     private void CastRay(){
             

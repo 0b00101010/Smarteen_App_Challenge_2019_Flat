@@ -95,6 +95,20 @@ public class StartSceneManager : MonoBehaviour
             RightMoveCount++;
         }
 
+        if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
+            FrontMoveCount++;
+        }
+        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
+            FrontMoveCount--;
+
+        }
+        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
+            RightMoveCount--;
+        }
+        else if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
+            RightMoveCount++;
+            
+        }
         // #endif
 
         // #if UNITY_ANDROID

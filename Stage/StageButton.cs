@@ -13,7 +13,10 @@ public class StageButton : MonoBehaviour
     [SerializeField]
     private bool isUnlock;
     private Button thisButton;    
-    public bool IsUnlock{get => isUnlock;}
+    public bool IsUnlock{
+        get => isUnlock;
+    }
+
     [SerializeField]
     private StageButton nextStage;
     
@@ -25,12 +28,11 @@ public class StageButton : MonoBehaviour
     public bool IsStar{get => isStar;}
     
 
-    private void Start(){
-
+    private void Awake() {
         thisButton = gameObject.GetComponent<Button>();
 
         if(PlayerPrefs.HasKey("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString())){
-            IsClear = bool.Parse(PlayerPrefs.GetString("Round_0" + roundNumber.ToString() + "_" + stageNumber));
+            isClear = bool.Parse(PlayerPrefs.GetString("Round_0" + roundNumber.ToString() + "_" + stageNumber));
                 
         }else{
             PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString(),"false");            
@@ -46,32 +48,40 @@ public class StageButton : MonoBehaviour
             thisButton.interactable = true;
         else
             thisButton.interactable = false;
+        //Image Change
+    }
 
+    private void Start(){
         if(isClear)
             nextStage?.Unlock();
-
-        //Image Change
-
+   
         if(isUnlock){
             if(isStar){
-                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Clear");
+                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/"+"Round_0" + roundNumber.ToString() +"/Star");
+            }
+            else if(isClear){
+                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/"+"Round_0" + roundNumber.ToString() +"/Clear");
             }
             else{
-                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UnLock");
+                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/"+"Round_0" + roundNumber.ToString() +"/UnLock");
             }
         }else {
-                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/Lock");
+                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/"+"Round_0" + roundNumber.ToString() +"/Lock");
         }
     }
 
-    public void Clear(){
-        PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString(),"true"); 
-        nextStage.Unlock();     
-    }
+    // public void Clear(){
+    //     PlayerPrefs.SetString("Round_0" + roundNumber.ToString() + "_" + stageNumber.ToString(),"true"); 
+    //     nextStage.Unlock();     
+    // }
 
     public void Unlock(){
-        isUnlock = true;
-        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/UnLock");
-        thisButton.interactable = true;
+        if(isUnlock)
+            return;
+
+        isUnlock = true;                
+        if(!thisButton.IsInteractable())
+            thisButton.interactable = true;
+        gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/"+"Round_0" + roundNumber.ToString() +"/UnLock");
     }
 }

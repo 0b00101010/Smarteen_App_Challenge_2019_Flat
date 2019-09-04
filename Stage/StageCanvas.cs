@@ -11,17 +11,16 @@ public class StageCanvas : MonoBehaviour{
     [SerializeField]
     private StageSelectSceneManager sceneManager;
 
-    [SerializeField]
-    private Canvas stageCanvas;
-
-    [SerializeField]
-    private Text getStarText;
     
     [SerializeField]
     private string roundName;
     private Ray ray = new Ray();
 
     private StageButton[] stageButtons;
+    
+    [SerializeField]
+    private StageButton nextStageButton;
+
     private int getStar;
     private int maxStar;
 
@@ -34,43 +33,10 @@ public class StageCanvas : MonoBehaviour{
                 getStar++;
         }
 
+        if(getStar == stageButtons.Length)
+            nextStageButton?.Unlock();
 
-        // getStarText.text = getStar.ToString() + " / " + maxStar.ToString();
     }
-
-    public void OpenButtons(){
-        stageCanvas.gameObject.SetActive(false);
-        stageButtonCanvas.gameObject.SetActive(true);
-    } 
-
-    public void CloseButtons(){
-        stageCanvas.gameObject.SetActive(true);
-        stageButtonCanvas.gameObject.SetActive(false);
-    }
-
-    // private void Update(){
-    //     //if(stageButtonCanvas.gameObject.activeInHierarchy && (Input.GetMouseButtonDown(0) || GameManager.instance.touchManager.IsTouch))
-    //         CastRay();
-    // }
-    
-    private void CastRay(){
-            
-            // ray.origin = GameManager.instance.touchManager.GetPosition();
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // ray.origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ray.direction = Vector3.forward;
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin,ray.direction,Mathf.Infinity,LayerMask.GetMask("UI"));
-            
-            if(hit.collider == null)
-                CloseButtons();
-            // RaycastHit hit; 
-            // if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
-            //    Debug.Log(hit.collider?.transform.name);
-            // }
-
-            
-    }
-
     public void LoadScene(int nextStageNumber){
         GameManager.instance.nextRound = roundName;
         GameManager.instance.nextStageNumber = nextStageNumber;

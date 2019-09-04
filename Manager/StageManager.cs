@@ -102,7 +102,6 @@ public class StageManager : MonoBehaviour
     
     private int theme;
 
-
     [Space(20)]
     [MinValue(0f),MaxValue(100f)]
     [SerializeField]
@@ -365,6 +364,7 @@ public class StageManager : MonoBehaviour
 
         
     }
+
 
     private int GetMapStar(){
         

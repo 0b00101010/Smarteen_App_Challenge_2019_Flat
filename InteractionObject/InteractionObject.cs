@@ -35,6 +35,12 @@ public class InteractionObject : MonoBehaviour
         ray.origin = pos;
         ray.direction = Vector3.up;
     }
+
+    protected void Effect(){
+        if(interactionParticle != null)
+            Instantiate(interactionParticle,gameObject.transform.position, interactionParticle.transform.rotation);
+    }
+
     protected virtual void Interaction() { }
 
     protected int GetColorIndex()

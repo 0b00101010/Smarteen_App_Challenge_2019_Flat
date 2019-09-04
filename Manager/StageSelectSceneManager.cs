@@ -36,13 +36,13 @@ public class StageSelectSceneManager : MonoBehaviour
         blackBackground.gameObject.SetActive(false);
     }
     private void Update(){
-        if((Input.GetKeyDown(KeyCode.A) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[0].transform.position.x < 0 && selectStage > 0){
+        if((Input.GetKeyDown(KeyCode.A) || GameManager.instance.touchManager.SwipeDirection.x > 0) && stages[0].transform.position.x < 0 && selectStage > 0){
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector2(80f,0));
             }
             SelectStage--;
         }
-        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x > 0) && stages[stages.Length - 1].transform.position.x > 0 && selectStage < stages.Length)
+        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[stages.Length - 1].transform.position.x > 0 && selectStage < stages.Length)
         {            
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector3(-80f,0));

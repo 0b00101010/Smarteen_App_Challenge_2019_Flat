@@ -5,11 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class StartSceneManager : MonoBehaviour
 {
-    [SerializeField]
-    private Image blackImage;
+    public static StartSceneManager instance;
 
     [SerializeField]
-    private Image backgroundWhite;
+    private Image blackImage;
 
     [SerializeField]
     private Canvas settingCanvas;
@@ -18,52 +17,26 @@ public class StartSceneManager : MonoBehaviour
     private Button bgmButton;
     [SerializeField]
     private Button sfxButton;
-    
-    private int frontMoveCount;
-
-    private int FrontMoveCount { 
-        get => frontMoveCount; 
-        set{       
-            Debug.Log(value);
-
-            if(!(value > -2 && value < 2))
-                return;
-            frontMoveCount = value;
-            
-            if(frontMoveCount == -1)
-                StageSelectScene();
-        }
-    } 
-
-    private int rightMoveCount;
-
-    private int RightMoveCount{
-        get => rightMoveCount;
-        set{
-            Debug.Log(value);
-            if(!(value > -2 && value < 2))
-                return;
-            rightMoveCount = value;
-            
-            if(rightMoveCount == 1)
-                SettingButton();
-        }
-    }
+    [SerializeField]
+    private Sprite[] soundSprite;
     
     private void Start(){
+        if(instance == null)
+            instance = this;
+
         StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
-        StartCoroutine(WhiteFadeInOut());
+        //StartCoroutine(WhiteFadeInOut());
         if(GameManager.instance.soundManager.BGMOnOff)
-            bgmButton.image.color = new Color(1f,1f,1f,1f);
+            bgmButton.image.sprite = soundSprite[0];
             
-        else 
-            bgmButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
+        else             
+            bgmButton.image.sprite = soundSprite[1];
         
         if(GameManager.instance.soundManager.SFXOnOff)
-            sfxButton.image.color = new Color(1f,1f,1f,1f);
+            sfxButton.image.sprite = soundSprite[0];      
             
-        else 
-            sfxButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
+        else
+            sfxButton.image.sprite = soundSprite[1];            
 
 
     }
@@ -74,67 +47,11 @@ public class StartSceneManager : MonoBehaviour
         if(settingCanvas.gameObject.activeInHierarchy && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
             CastRay();
         }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            FrontMoveCount++;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            FrontMoveCount--;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            RightMoveCount--;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            RightMoveCount++;
-        }
-
-        if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
-            FrontMoveCount++;
-        }
-        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
-            FrontMoveCount--;
-
-        }
-        else if(GameManager.instance.touchManager.SwipeDirection.x < 0 && GameManager.instance.touchManager.SwipeDirection.y > 0 ){
-            RightMoveCount--;
-        }
-        else if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
-            RightMoveCount++;
-            
-        }
         // #endif
 
         // #if UNITY_ANDROID
        
         
-    }
-
-    private IEnumerator WhiteFadeInOut(){
-        WaitForSeconds waitingTime = new WaitForSeconds(0.025f);
-        WaitForSeconds waitingTime2 = new WaitForSeconds(1.5f);
-        while(true){
-            for(int i = 0; i < 30; i++){
-                backgroundWhite.color = new Color(backgroundWhite.color.r,backgroundWhite.color.g,backgroundWhite.color.b ,backgroundWhite.color.a + 0.01f);
-                yield return waitingTime;
-            }
-
-            yield return waitingTime2;
-
-            for(int i = 0; i < 30; i++){
-                backgroundWhite.color = new Color(backgroundWhite.color.r,backgroundWhite.color.g,backgroundWhite.color.b,backgroundWhite.color.a - 0.01f);
-                yield return waitingTime;
-            }
-            yield return waitingTime2;
-
-        }
-
     }
 
     private void CastRay(){
@@ -143,21 +60,23 @@ public class StartSceneManager : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         // ray.origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ray.direction = Vector3.forward;
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin,ray.direction,Mathf.Infinity,LayerMask.GetMask("UI"));
+        // RaycastHit2D hit = Physics2D.Raycast(ray.origin,ray.direction,Mathf.Infinity,LayerMask.GetMask("UI"));
         
-        if(hit.collider == null){
-            settingCanvas.gameObject.SetActive(false);
-        }
-        
-        // RaycastHit hit; 
-        // if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
-        //    Debug.Log(hit.collider?.transform.name);
+        // if(hit.collider == null){
+        //     settingCanvas.gameObject.SetActive(false);
         // }
+        
+        RaycastHit hit; 
+        if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
+           if(hit.collider == null)
+               settingCanvas.gameObject.SetActive(false);
+        }  
 
         
     }
 
     public void StageSelectScene(){
+        Debug.Log("SceneLoad");
         blackImage.gameObject.SetActive(true);
         StartCoroutine(StageSelectSceneLoad());
 
@@ -187,11 +106,11 @@ public class StartSceneManager : MonoBehaviour
         GameManager.instance.soundManager.BGMOnOff = !GameManager.instance.soundManager.BGMOnOff;
         
         if(GameManager.instance.soundManager.BGMOnOff)
-            bgmButton.image.color = new Color(1f,1f,1f,1f);
+            bgmButton.image.sprite = soundSprite[0];
             
-        else 
-            bgmButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
-    
+        else             
+            bgmButton.image.sprite = soundSprite[1];
+
     }
 
     public void SfxOnOff(){
@@ -199,11 +118,10 @@ public class StartSceneManager : MonoBehaviour
         GameManager.instance.soundManager.SFXOnOff = !GameManager.instance.soundManager.SFXOnOff;
         
         if(GameManager.instance.soundManager.SFXOnOff)
-            sfxButton.image.color = new Color(1f,1f,1f,1f);
-            
+            sfxButton.image.sprite = soundSprite[0];            
         else 
-            sfxButton.image.color = new Color(0.5f,0.5f,0.5f,1f);
-    
+            sfxButton.image.sprite = soundSprite[1];
+        
     }
 
 

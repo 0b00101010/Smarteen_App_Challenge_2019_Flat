@@ -56,7 +56,7 @@ public class ColorButton : InteractionObject
 
     private IEnumerator CollisionWait()
     {
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.35f);
         isCollision = false;
     }
 

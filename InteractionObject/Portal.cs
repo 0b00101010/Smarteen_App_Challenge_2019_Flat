@@ -20,7 +20,9 @@ public class Portal : InteractionObject
     }
 
     protected override void Interaction(){
+        Effect();
         StageManager.instance.GameClear();
+
     }
 
     private IEnumerator CollisionWait()

@@ -113,11 +113,11 @@ public class CubeCtrl : MonoBehaviour
         }
         
         else if (Input.GetKeyDown(KeyCode.Q)){
-            MoveCommand.CameraTurnLeft();
+            CameraTurnLeft();
         }
 
         else if (Input.GetKeyDown(KeyCode.E)){
-            MoveCommand.CameraTurnRight();
+            CameraTurnRight();
         }
 
         if(Input.touchCount < 2){
@@ -133,12 +133,15 @@ public class CubeCtrl : MonoBehaviour
             else if(GameManager.instance.touchManager.SwipeDirection.x > 0 && GameManager.instance.touchManager.SwipeDirection.y < 0 ){
                 MoveCommand.CubeRight();
             }
-            if(GameManager.instance.touchManager.MultiSwipeDirection.x < 0){
-                MoveCommand.CameraTurnLeft();
-            }else if(GameManager.instance.touchManager.MultiSwipeDirection.x > 0){
-                MoveCommand.CameraTurnRight();
-            }
         }  
+    }
+
+    public void CameraTurnLeft(){
+        MoveCommand.CameraTurnLeft();
+    }
+
+    public void CameraTurnRight(){
+        MoveCommand.CameraTurnRight();
     }
 
     public void SubscribeObserver(IObserver observer){

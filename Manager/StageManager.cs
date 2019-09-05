@@ -179,8 +179,7 @@ public class StageManager : MonoBehaviour
 
 
     private void GameStart(){
-        StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
-
+        StartCoroutine(BlackFadeOut());
 
         if(limitType.Equals("Time")){
             floatTimer = (float)limitValue;
@@ -215,6 +214,17 @@ public class StageManager : MonoBehaviour
 
         StartCoroutine(ImageFadeInOut());
     }
+    
+    private IEnumerator BlackFadeOut(){
+        yield return StartCoroutine(GameManager.instance.IFadeOut(blackImage,0.5f));
+        blackImage.gameObject.SetActive(false);
+    }
+
+    private IEnumerator BlackFadeIn(){
+        blackImage.gameObject.SetActive(true);
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage, 0.5f));
+    }
+
     private IEnumerator ImageFadeInOut(){
         
         WaitForSeconds waitingTime = new WaitForSeconds(0.1f);
@@ -298,12 +308,12 @@ public class StageManager : MonoBehaviour
     }
 
     private IEnumerator ReturnToMenuCoroutine(){
-        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.25f));
+        yield return StartCoroutine(BlackFadeIn());
         SceneManager.LoadScene("01.StageSelectScene");
     }
 
-    private IEnumerator RetryCouroutine(){
-        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.25f));        
+    private IEnumerator RetryCouroutine(){  
+        yield return StartCoroutine(BlackFadeIn());
         SceneManager.LoadScene("02.InGame");
 
     }

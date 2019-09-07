@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         touchManager.ProcessMobileInput();
     }
 
-      public IEnumerator FadeIn(SpriteRenderer spriteRenderer, float spendTime, int repeatCount = 10) {
+      public IEnumerator FadeIn(SpriteRenderer spriteRenderer, float spendTime, int repeatCount = 30) {
         for (int i = 0; i < repeatCount; i++)
         {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a + (1.0f / repeatCount));
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FadeOut(SpriteRenderer spriteRenderer, float spendTime, int repeatCount = 10) {
+    public IEnumerator FadeOut(SpriteRenderer spriteRenderer, float spendTime, int repeatCount = 30) {
         for (int i = 0; i < repeatCount; i++)
         {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a - (1.0f / repeatCount));
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator IFadeIn(Image image, float spendTime, int repeatCount = 10)
+    public IEnumerator IFadeIn(Image image, float spendTime, int repeatCount = 30)
     {
         for (int i = 0; i < repeatCount; i++)
         {
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator IFadeOut(Image image, float spendTime, int repeatCount = 10)
+    public IEnumerator IFadeOut(Image image, float spendTime, int repeatCount = 30)
     {
         for (int i = 0; i < repeatCount; i++)
         {

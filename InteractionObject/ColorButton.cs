@@ -91,6 +91,8 @@ public class ColorButton : InteractionObject
         }
 
         isInvisible = !isInvisible;
+
+        base.Interaction();
     }
 
 }

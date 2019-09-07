@@ -7,6 +7,7 @@ public class Portal : InteractionObject
 
     private bool isCollision = false;
 
+    
     private void OnTriggerEnter(Collider other)
     {
         otherObjectColor = GetColorIndex();
@@ -20,7 +21,8 @@ public class Portal : InteractionObject
     }
 
     protected override void Interaction(){
-        Effect();
+        base.Interaction();
+        
         StageManager.instance.GameClear();
 
     }

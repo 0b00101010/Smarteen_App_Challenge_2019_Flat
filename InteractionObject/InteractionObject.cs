@@ -7,7 +7,7 @@ public class InteractionObject : MonoBehaviour
 {
 
     [SerializeField]
-    private ParticleSystem interactionParticle;
+    protected ParticleSystem interactionParticle;
 
 
     [Header("Color Number")]
@@ -41,7 +41,9 @@ public class InteractionObject : MonoBehaviour
             Instantiate(interactionParticle,gameObject.transform.position, interactionParticle.transform.rotation);
     }
 
-    protected virtual void Interaction() { }
+    protected virtual void Interaction() { 
+        Effect();
+    }
 
     protected int GetColorIndex()
     {

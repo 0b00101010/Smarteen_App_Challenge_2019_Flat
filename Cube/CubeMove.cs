@@ -9,6 +9,10 @@ public class CubeMove : MonoBehaviour{
     [SerializeField]
     private GameObject gameCube;
 
+
+    [SerializeField]
+    private AudioClip moveSfx;
+
     [SerializeField]
     private int movePower;
 
@@ -98,6 +102,7 @@ public class CubeMove : MonoBehaviour{
                 yield return null;
             }
             isMove = false;
+            GameManager.instance.soundManager.SFXOneShot(moveSfx);
             CubeMoveObserver?.Notify();
         }
         else {

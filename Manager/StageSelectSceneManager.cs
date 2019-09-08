@@ -42,11 +42,11 @@ public class StageSelectSceneManager : MonoBehaviour
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector2(80f,0));
             }
-            isMove = false;
+            isMove = true;
             SelectStage--;
             StartCoroutine(CanvasWait());
         }
-        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[stages.Length - 1].transform.position.x > 0 && selectStage < stages.Length && isMove)
+        else if ((Input.GetKeyDown(KeyCode.D) || GameManager.instance.touchManager.SwipeDirection.x < 0) && stages[stages.Length - 1].transform.position.x > 0 && selectStage < stages.Length && !isMove)
         {            
             for(int i =0 ; i < stages.Length; i++){
                 stages[i].transform.Translate(new Vector3(-80f,0));

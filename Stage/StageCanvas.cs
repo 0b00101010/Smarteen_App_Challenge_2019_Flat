@@ -24,6 +24,8 @@ public class StageCanvas : MonoBehaviour{
     private int getStar;
     private int maxStar;
 
+    private int getClear; 
+
     private void Start(){
         stageButtons = stageButtonCanvas?.GetComponentsInChildren<StageButton>();
         maxStar = stageButtons.Length;
@@ -31,9 +33,12 @@ public class StageCanvas : MonoBehaviour{
         for(int i = 0; i < stageButtons.Length; i++){
             if(stageButtons[i].IsStar)
                 getStar++;
+
+            if(stageButtons[i].IsClear)
+                getClear++;
         }
 
-        if(getStar == stageButtons.Length)
+        if(getStar > 10 && getClear.Equals(stageButtons.Length))
             nextStageButton?.Unlock();
 
     }

@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetString("BGM","true");
         PlayerPrefs.SetString("SFX","true");
     }
-
+    
     private void Update()
     {
         touchManager.ProcessMobileInput();

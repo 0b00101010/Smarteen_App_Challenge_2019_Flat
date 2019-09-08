@@ -34,6 +34,19 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private bool isPlay;
+
+    public bool IsPlay{
+        get => isPlay;
+        set => isPlay = value;
+    }  
+    private int playNumber;
+
+    public int PlayNumber{
+        get => playNumber;
+        set => playNumber = value;
+    }
+
     [SerializeField]
     private AudioSource bgmSource;
     [SerializeField]
@@ -65,19 +78,34 @@ public class SoundManager : MonoBehaviour
             
     }
 
-    public void ChangeBGM(AudioClip bgmClip){
-        bgmSource.clip = bgmClip;
+    public void ChangeBGM(AudioClip bgmClip, int playNumber){
+        if(isPlay){
+            if(!this.playNumber.Equals(playNumber)){
+                bgmSource.clip = bgmClip;
+                this.playNumber = playNumber;
+                PlayBgm();
+            }
+        }
+        else{
+            bgmSource.clip = bgmClip;
+            this.playNumber = playNumber;
+            PlayBgm();
+        }    
     }
 
     public void PlayBgm(){
         bgmSource.Play();
+        IsPlay = true;
     }
 
     public void StopBGM(){
         bgmSource.Stop();
+        IsPlay = false;
     }
 
     public void SFXOneShot(AudioClip sfxClip){
         sfxSource.PlayOneShot(sfxClip);
     }
+
+    
 }

@@ -83,6 +83,18 @@ public class StageManager : MonoBehaviour
     [SerializeField]
     private Sprite[] resultBackgroundImages;
 
+    [BoxGroup("Sound")]
+    [SerializeField]
+    private AudioClip clearSfx;
+
+    [BoxGroup("Sound")]
+    [SerializeField]
+    private AudioClip failedSfx;
+
+    [BoxGroup("Sound")]
+    [SerializeField]
+    private AudioClip backgroundMusic;
+
     #endregion FIELDS
     #region GAME_SETTING
     [Space(10)]
@@ -116,6 +128,7 @@ public class StageManager : MonoBehaviour
     private bool isMissionTypeMoveCount = false;
 
     private ParticleSystem backgroundParticle;
+    private GameObject backgroundObject;
     private IEnumerator timerCoroutine;
 
     [SerializeField]
@@ -167,11 +180,15 @@ public class StageManager : MonoBehaviour
             themeAdditionImage.sprite = Resources.Load<Sprite>("StageObject/" + GameManager.instance.nextRound + "/Addition");
             themeColorImage.color = themeColor[theme];
             backgroundParticle = Resources.Load<ParticleSystem>("StageObject/" + GameManager.instance.nextRound + "/BackgroundParticle");
+            backgroundObject = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/BackgroundObject");
+            backgroundMusic = Resources.Load<AudioClip>("StageObject/" + GameManager.instance.nextRound + "/BackgroundMusic");
         }else{
             backgroundImage.sprite = themeBackgrounds[theme];
             themeAdditionImage.sprite = themeAddition[theme];
             themeColorImage.color = themeColor[theme];
             backgroundParticle = Resources.Load<ParticleSystem>("StageObject/" + GameManager.instance.nextRound + "/BackgroundParticle");
+            backgroundObject = Resources.Load<GameObject>("StageObject/" + GameManager.instance.nextRound + "/BackgroundObject");
+            backgroundMusic = Resources.Load<AudioClip>("StageObject/" + GameManager.instance.nextRound + "/BackgroundMusic");
         }
 
         GameStart();
@@ -210,8 +227,17 @@ public class StageManager : MonoBehaviour
             missionText.text = "";
             missionTextBox.enabled = false;
         }
-        Instantiate(backgroundParticle, new Vector3(0,0,0), backgroundParticle.transform.rotation);
 
+        if(backgroundParticle != null)
+            Instantiate(backgroundParticle, new Vector3(0,0,0), backgroundParticle.transform.rotation);
+
+        if(backgroundObject != null)
+            Instantiate(backgroundObject, backgroundObject.transform.position, backgroundObject.transform.rotation);
+
+        if(backgroundMusic != null ){
+            GameManager.instance.soundManager.ChangeBGM(backgroundMusic,theme);
+        }
+        
         StartCoroutine(ImageFadeInOut());
     }
     
@@ -330,6 +356,7 @@ public class StageManager : MonoBehaviour
 
     [Button("GameClear")]    
     public void GameClear(){
+        GameManager.instance.soundManager.SFXOneShot(clearSfx);
         resultBackgroundImage.sprite = resultBackgroundImages[0];
         clearText.sprite = clearTextImages[0];
         if(GameManager.instance.nextStageNumber.Equals(14))
@@ -346,7 +373,7 @@ public class StageManager : MonoBehaviour
 
     [Button("GameEnd")]
     public void GameEnd(){
-
+        GameManager.instance.soundManager.SFXOneShot(failedSfx);
         resultBackgroundImage.sprite = resultBackgroundImages[1];
         clearText.sprite = clearTextImages[1];
         StartCoroutine(ResultCoroutine());

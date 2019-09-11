@@ -18,8 +18,6 @@ public class Spectrum : MonoBehaviour
             if(FirstScale.y < 12)                              
                 FirstScale.y = 3f + SpectrumData[i] * 250;                                         
             
-
-
             Sticks[i].transform.localScale = Vector2.MoveTowards(Sticks[i].transform.localScale, FirstScale, 0.1f);    
         }
     }

@@ -79,7 +79,7 @@ public class StartSceneManager : MonoBehaviour
     }
 
     public void StageSelectScene(){
-        Debug.Log("SceneLoad");
+        // Debug.Log("SceneLoad");
         blackImage.gameObject.SetActive(true);
         StartCoroutine(StageSelectSceneLoad());
 

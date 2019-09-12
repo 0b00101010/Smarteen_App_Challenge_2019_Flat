@@ -119,6 +119,7 @@ public class LoadingBar : MonoBehaviour
         cubeImage.rectTransform.rotation = Quaternion.Euler(0,0,0);
         cubeImage.rectTransform.localScale = new Vector3(1.0f,1.0f,1.0f);
         yield return StartCoroutine(GameManager.instance.IFadeIn(cubeImage,0.25f));
+        
         rotateAngle = 0;
     }
 

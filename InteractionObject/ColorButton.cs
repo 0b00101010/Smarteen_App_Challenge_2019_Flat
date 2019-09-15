@@ -49,9 +49,9 @@ public class ColorButton : InteractionObject
             StartCoroutine(CollisionWait());
         }
 
-        if(underBlock == null && other.transform.CompareTag("Tile")){
-            underBlock = other.GetComponent<TileBlock>();
-        }
+        // if(underBlock == null && other.transform.CompareTag("Tile")){
+        //     underBlock = other.GetComponent<TileBlock>();
+        // }
     }
 
     private IEnumerator CollisionWait()

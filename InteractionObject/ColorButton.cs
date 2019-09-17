@@ -10,11 +10,11 @@ public class ColorButton : InteractionObject
     private List<GameObject> walls = new List<GameObject>();
     private TileBlock underBlock;
     private bool isInvisible = false;
-
+    
     private int otherObjectColor;
 
     private bool isCollision = false;
-
+    private bool isEnter = false;
     private void Start()
     {
         Ray ray = new Ray();
@@ -41,14 +41,27 @@ public class ColorButton : InteractionObject
 
     private void OnTriggerEnter(Collider other)
     {
+
         otherObjectColor = GetColorIndex();
+        // otherObjectColor = other.GetComponent<CubeColor>().SideColor;
         if (otherObjectColor.Equals(colorNumber) && !isCollision)
         {
+            Debug.Log("Button::TriggerEnter Side Number : " + otherObjectColor);
             Interaction();
-            isCollision = true;
-            StartCoroutine(CollisionWait());
+            //isCollision = true;
+            isEnter = true;
+            //StartCoroutine(CollisionWait());
         }
-        //
+
+    }
+
+    private void OnTriggerExit(Collider other){
+        if(!other.CompareTag("Side"))
+            return;
+        
+        Debug.Log("Button::TriggerExit");
+        // StartCoroutine(CollisionWait());
+        isEnter = false;
     }
 
     private IEnumerator CollisionWait()

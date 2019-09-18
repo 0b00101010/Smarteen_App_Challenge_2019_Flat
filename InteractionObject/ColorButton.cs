@@ -48,20 +48,10 @@ public class ColorButton : InteractionObject
         {
             Debug.Log("Button::TriggerEnter Side Number : " + otherObjectColor);
             Interaction();
-            //isCollision = true;
-            isEnter = true;
-            //StartCoroutine(CollisionWait());
+            isCollision = true;
+            
+            StartCoroutine(CollisionWait());
         }
-
-    }
-
-    private void OnTriggerExit(Collider other){
-        if(!other.CompareTag("Side"))
-            return;
-        
-        Debug.Log("Button::TriggerExit");
-        // StartCoroutine(CollisionWait());
-        isEnter = false;
     }
 
     private IEnumerator CollisionWait()

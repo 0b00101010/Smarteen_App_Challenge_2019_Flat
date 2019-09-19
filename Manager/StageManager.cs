@@ -169,6 +169,8 @@ public class StageManager : MonoBehaviour
         phasing = gameObject.GetComponent<MapPhasing>() ?? null;
         phasing?.Phasing();
         timerCoroutine = GameTimer();
+
+
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }

@@ -9,7 +9,6 @@ public class ColorButton : InteractionObject
     [SerializeField]
     private List<GameObject> walls = new List<GameObject>();
     private TileBlock underBlock;
-    private bool isInvisible = false;
     
     private int otherObjectColor;
 
@@ -30,12 +29,13 @@ public class ColorButton : InteractionObject
     }
 
     public void GetWall(){
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Wall");
+        Wall[] temp = Resources.FindObjectsOfTypeAll<Wall>();
 
         for(int i =0; i < temp.Length; i++)
         {
             if (temp[i].GetComponent<Wall>().colorNumber.Equals(colorNumber))
-                walls.Add(temp[i]);
+                walls.Add(temp[i].gameObject);
+            
         }
     }
 
@@ -73,25 +73,18 @@ public class ColorButton : InteractionObject
     {
         // Debug.Log("Interaction");
         
-        if (!isInvisible)
-        {
-            for (int i = 0; i < walls.Count; i++)
-                walls[i].SetActive(false);
+        for (int i = 0; i < walls.Count; i++)
+            walls[i].SetActive(!walls[i].activeInHierarchy);
 
+
+        if(!isEnter){
             if(underBlock != null)
                 underBlock.ChangeMaterials(colorNumber);
         }
-        else
-        {
-            for (int i = 0; i < walls.Count; i++)
-                walls[i].SetActive(true);
-
+        else{
             if(underBlock != null)
-                underBlock.ChangeMaterials(6);
+               underBlock.ChangeMaterials(6);
         }
-
-        isInvisible = !isInvisible;
-
         base.Interaction();
     }
 

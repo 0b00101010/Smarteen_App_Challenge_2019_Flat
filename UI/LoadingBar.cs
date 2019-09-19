@@ -73,17 +73,15 @@ public class LoadingBar : MonoBehaviour
             loadingTimer += Time.deltaTime;
 
             if(asyncOperation.progress >= 0.9f){
-                loadingBar.fillAmount = Mathf.Lerp(0, 1f, loadingTimer);
-
-                if(loadingBar.fillAmount.Equals(1.0f) && rotateAngle == -360)
-                    StartCoroutine(GaemStart());
+                loadingBar.fillAmount = 1;
+                
+                if(rotateAngle == -360){
+                    StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.1f));
+                    asyncOperation.allowSceneActivation = true;
+                }
             }
             else{
-                loadingBar.fillAmount = Mathf.Lerp(loadingBar.fillAmount, asyncOperation.progress, loadingTimer);
-
-                if(loadingBar.fillAmount >= asyncOperation.progress){
-                    loadingTimer = 0;
-                }
+                loadingBar.fillAmount = Mathf.Lerp(0, 1, asyncOperation.progress);
             }
 
             // loadingBar.fillAmount = asyncOperation.progress;
@@ -106,11 +104,6 @@ public class LoadingBar : MonoBehaviour
             yield return null;
         }
 
-    }
-
-    private IEnumerator GaemStart(){
-        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.25f));
-        asyncOperation.allowSceneActivation = true;
     }
 
     private IEnumerator CubeFadeInOut(){

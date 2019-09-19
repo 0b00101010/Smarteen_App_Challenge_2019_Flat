@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour
     
     [Space(20)]
     [SerializeField]
-    [ProgressBar("Star",100,ProgressBarColor.Yellow)]
+    [ProgressBar("Star",45,ProgressBarColor.Yellow)]
     private int star;    
-
     
+    [SerializeField]
+    private AudioClip mainBGM;
+
     public int Star{
         get => star;
         set{
@@ -39,6 +41,10 @@ public class GameManager : MonoBehaviour
         touchManager = gameObject.GetComponent<TouchManager>();
         soundManager = gameObject.GetComponent<SoundManager>();
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start(){
+        soundManager.ChangeBGM(mainBGM,-1);
     }
 
     [Button("PlayerPrefs Key all Clear")]

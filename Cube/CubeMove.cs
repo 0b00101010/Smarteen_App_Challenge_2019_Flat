@@ -23,6 +23,8 @@ public class CubeMove : MonoBehaviour{
     private Vector3 rotateVector;
     private Vector3 moveVector;
 
+    private Vector3 upVector = new Vector3(0,0.01f,0);
+    private Vector3 downVector = new Vector3(0,-0.01f,0);
     private IObserver CubeMoveObserver; 
     [SerializeField]
     private GameObject[] cinemachines;
@@ -94,10 +96,17 @@ public class CubeMove : MonoBehaviour{
     {
         isMove = true;
 
+
+
         if (!DetectedWall()){
             for(int i  = 0 ; i < 10; i++){
-                gameCube.transform.Rotate(rotateVector * 9, Space.World);
-                gameObject.transform.Translate((moveVector / 10) * movePower, Space.World);
+                gameCube.transform.Rotate(rotateVector * 9 *  Time.deltaTime, Space.World);
+                gameObject.transform.Translate((moveVector / 10) * movePower * Time.deltaTime, Space.World);
+                
+                // if(i < 5)
+                //     gameObject.transform.Translate(upVector);
+                // else
+                //     gameObject.transform.Translate(downVector);
                 
                 yield return null;
             }

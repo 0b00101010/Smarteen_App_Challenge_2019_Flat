@@ -100,8 +100,8 @@ public class CubeMove : MonoBehaviour{
 
         if (!DetectedWall()){
             for(int i  = 0 ; i < 10; i++){
-                gameCube.transform.Rotate(rotateVector * 9 *  Time.deltaTime, Space.World);
-                gameObject.transform.Translate((moveVector / 10) * movePower * Time.deltaTime, Space.World);
+                gameCube.transform.Rotate(rotateVector * 9, Space.World);
+                gameObject.transform.Translate((moveVector / 10) * movePower , Space.World);
                 
                 // if(i < 5)
                 //     gameObject.transform.Translate(upVector);

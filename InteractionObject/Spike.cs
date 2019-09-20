@@ -20,6 +20,7 @@ public class Spike : InteractionObject
     }
 
     protected override void Interaction(){
+        Handheld.Vibrate();
         StageManager.instance.GameEnd();
     }
 

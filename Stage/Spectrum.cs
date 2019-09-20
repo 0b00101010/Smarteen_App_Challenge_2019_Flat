@@ -5,9 +5,17 @@ using UnityEngine.UI;
 public class Spectrum : MonoBehaviour
 {
     [SerializeField]
-    public List<GameObject> Sticks;        
+    private List<GameObject> Sticks;        
     //[SerializeField]
     //private Image themeAdditionImage;
+
+    [SerializeField]
+    private Canvas thisCanvas;
+
+    private void Start(){
+        thisCanvas = gameObject.GetComponent<Canvas>();
+        thisCanvas.worldCamera = Camera.main;
+    }
 
     private void Update()
     {

@@ -26,7 +26,7 @@ public class StageSelectSceneManager : MonoBehaviour
         }
     }
     private void Start(){
-
+        GameManager.instance.soundManager.ChangeBGM(GameManager.instance.MainBgm,-1);
         StartCoroutine(InitCoroutine());
         SelectStage = 0;
         for(int i = 0; i < stages.Length; i++){

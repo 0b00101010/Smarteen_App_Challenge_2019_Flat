@@ -20,6 +20,15 @@ public class LoadingBar : MonoBehaviour
     [ProgressBar("LoadingBar",100,ProgressBarColor.Indigo)]
     private float loadingBarAmount;
     
+    [SerializeField]
+    private Sprite[] tipsKor;
+
+    [SerializeField]
+    private Sprite[] tipsEng;
+
+    [SerializeField]
+    private Image tipImage; 
+
     public float LoadingBarAmount{get => loadingBarAmount;}
 
     private Vector3 cubePosition;
@@ -34,6 +43,11 @@ public class LoadingBar : MonoBehaviour
         loadingCoroutine = Loading();
         cubePosition = cubeImage.transform.position;
         LoadingStart();
+
+        if(GameManager.instance.LaguageCord.Equals(0))
+            tipImage.sprite = tipsKor[Random.Range(0,tipsKor.Length)];
+        else if(GameManager.instance.LaguageCord.Equals(1))
+            tipImage.sprite = tipsEng[Random.Range(0,tipsEng.Length)];
     }
 
     [Button("Loading")]
@@ -54,6 +68,7 @@ public class LoadingBar : MonoBehaviour
         cubeImage.rectTransform.localScale = originalScale;
         rotateAngle = 0;
         loadingBar.fillAmount = 0.0f;
+        tipImage.fillAmount = 0.0f;
     }
     
 
@@ -71,6 +86,9 @@ public class LoadingBar : MonoBehaviour
         while(!asyncOperation.isDone){
             
             loadingTimer += Time.deltaTime;
+
+            if(tipImage.fillAmount < 1.0f)
+                tipImage.fillAmount += 0.1f;
 
             if(asyncOperation.progress >= 0.9f){
                 loadingBar.fillAmount = 1;

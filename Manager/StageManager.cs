@@ -126,6 +126,8 @@ public class StageManager : MonoBehaviour
     private int moveCount = 0;
     private bool isLimitTypeMoveCount = false;
     private bool isMissionTypeMoveCount = false;
+    private string laguageTimeText;
+    private string laguageCountText;
 
     private ParticleSystem backgroundParticle;
     private GameObject backgroundObject;
@@ -138,12 +140,12 @@ public class StageManager : MonoBehaviour
         set {
                 moveCount = value;
                 if(isLimitTypeMoveCount)
-                    limitText.text = moveCount.ToString() + "회";
+                    limitText.text = moveCount.ToString() + laguageCountText;
                 if(isLimitTypeMoveCount && moveCount <= 0)
                     GameEnd();
 
                 if(isMissionTypeMoveCount)
-                    missionText.text = moveCount.ToString() + "회";
+                    missionText.text = moveCount.ToString() + laguageCountText;
                 if(isMissionTypeMoveCount && moveCount <= 0)
                     missionClear = false;
             }
@@ -170,7 +172,6 @@ public class StageManager : MonoBehaviour
         phasing?.Phasing();
         timerCoroutine = GameTimer();
 
-
         for(int i = 0; i < 6; i++){
             sides[i].GetComponent<MeshRenderer>().material = GetResoueceMaterials(sides[i].GetComponent<CubeColor>().SideColor);
         }
@@ -193,6 +194,15 @@ public class StageManager : MonoBehaviour
             backgroundMusic = Resources.Load<AudioClip>("StageObject/" + GameManager.instance.nextRound + "/BackgroundMusic");
         }
 
+        if(GameManager.instance.LaguageCord.Equals(0)){
+            laguageTimeText = "초";
+            laguageCountText = "회";
+        }
+        else if(GameManager.instance.LaguageCord.Equals(1)){
+            laguageTimeText = " Sec";
+            laguageCountText = " Moves";
+        }
+            
         GameStart();
     }
 
@@ -281,10 +291,10 @@ public class StageManager : MonoBehaviour
             floatTimer -= Time.deltaTime;
             
             if(limitType.Equals("Time"))
-                limitText.text = floatTimer.ToString("N0") + "초";
+                limitText.text = floatTimer.ToString("N0") + laguageTimeText;
 
             else if(missionType.Equals("Time"))
-                missionText.text = floatTimer.ToString("N0") + "초";
+                missionText.text = floatTimer.ToString("N0") + laguageTimeText;
 
             if(floatTimer < 0){
                 

@@ -9,6 +9,8 @@ public class StartSceneManager : MonoBehaviour
 
     [SerializeField]
     private Image blackImage;
+    [SerializeField]
+    private Image creditImage;
 
     [SerializeField]
     private Canvas settingCanvas;
@@ -18,8 +20,10 @@ public class StartSceneManager : MonoBehaviour
     [SerializeField]
     private Button sfxButton;
     [SerializeField]
+    private Button languageButton;
+    private bool creditOn = false;
+    [SerializeField]
     private Sprite[] soundSprite;
-    
     private void Start(){
         if(instance == null)
             instance = this;
@@ -38,15 +42,18 @@ public class StartSceneManager : MonoBehaviour
         else
             sfxButton.image.sprite = soundSprite[1];            
 
-
+        //if(GameManager.instance.LaguageCord.Equals(0))
+        //else   
     }
     private void Update(){
         if(blackImage.color.a < 0.005f)
             blackImage.gameObject.SetActive(false);
 
-        if(settingCanvas.gameObject.activeInHierarchy && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
+        if((settingCanvas.gameObject.activeInHierarchy ||  creditOn) && (GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0))){
             CastRay();
         }
+
+   
         // #endif
 
         // #if UNITY_ANDROID
@@ -67,15 +74,25 @@ public class StartSceneManager : MonoBehaviour
         // }
         
         RaycastHit hit; 
-        if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
-            if(hit.collider == null)
+
+        if(!creditOn){
+            if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
+                if(hit.collider == null)
+                    settingCanvas.gameObject.SetActive(false);
+            }
+            else{
                 settingCanvas.gameObject.SetActive(false);
+            }
         }
         else{
-            settingCanvas.gameObject.SetActive(false);
+            if(Physics.Raycast(ray,out hit,Mathf.Infinity,LayerMask.GetMask("UI"))){
+                if(hit.collider == null)
+                    creditImage.gameObject.SetActive(false);
+            }
+            else{
+                creditImage.gameObject.SetActive(false);
+            }
         }
-
-        
     }
 
     public void StageSelectScene(){
@@ -127,6 +144,25 @@ public class StartSceneManager : MonoBehaviour
         
     }
 
+    public void LanguageChange(){
+
+
+        if(GameManager.instance.LaguageCord.Equals(0)){
+            GameManager.instance.LaguageCord = 1;
+
+            // Button Setting
+        }
+        else{ 
+            GameManager.instance.LaguageCord = 0;
+
+            // Button Setting
+        }
+    }
+
+    public void Credit(){
+        creditImage.gameObject.SetActive(true);
+        creditOn = true;
+    }
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;

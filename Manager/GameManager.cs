@@ -13,6 +13,16 @@ public class GameManager : MonoBehaviour
     public string nextRound;
     public int nextStageNumber;
     
+    private int laguageCord = 0;
+
+    public int LaguageCord {
+        get => laguageCord; 
+        set {
+             laguageCord = value;
+             PlayerPrefs.SetInt("LaguageCord",laguageCord); 
+            }
+        }
+
     [Space(20)]
     [SerializeField]
     [ProgressBar("Star",45,ProgressBarColor.Yellow)]
@@ -20,6 +30,8 @@ public class GameManager : MonoBehaviour
     
     [SerializeField]
     private AudioClip mainBGM;
+
+    public AudioClip MainBgm {get=> mainBGM;}
 
     public int Star{
         get => star;
@@ -38,6 +50,11 @@ public class GameManager : MonoBehaviour
         else
             star = PlayerPrefs.GetInt("Star");    
                     
+        if(!PlayerPrefs.HasKey("LaguageCord"))
+            LaguageCord = 0;
+        else
+            LaguageCord = PlayerPrefs.GetInt("LaguageCord");
+
         touchManager = gameObject.GetComponent<TouchManager>();
         soundManager = gameObject.GetComponent<SoundManager>();
         DontDestroyOnLoad(gameObject);

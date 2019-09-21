@@ -55,6 +55,10 @@ public class GameManager : MonoBehaviour
         else
             LaguageCord = PlayerPrefs.GetInt("LaguageCord");
 
+        if(!PlayerPrefs.HasKey("FirstPlay"))
+            PlayerPrefs.SetInt("FirstPlay",1);
+
+
         touchManager = gameObject.GetComponent<TouchManager>();
         soundManager = gameObject.GetComponent<SoundManager>();
         DontDestroyOnLoad(gameObject);
@@ -67,6 +71,7 @@ public class GameManager : MonoBehaviour
     [Button("PlayerPrefs Key all Clear")]
     public void ClearAllKey(){
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("FirstPlay",1);
         PlayerPrefs.SetString("BGM","true");
         PlayerPrefs.SetString("SFX","true");
     }

@@ -20,7 +20,7 @@ public class Tutorials : MonoBehaviour
     [SerializeField]
     private Transform[] fingerPositions;
     private IEnumerator tutorialCoroutine;
-
+    private bool isWait = false;
     private int index;
 
     
@@ -38,11 +38,14 @@ public class Tutorials : MonoBehaviour
     }
 
     private void Update(){
-        if(GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0)){
+        if((GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0)) && !isWait){
             if(GameManager.instance.LaguageCord.Equals(0))
                 TutorialKor();    
             else if (GameManager.instance.LaguageCord.Equals(1))
                 TutorialEng();
+
+            isWait = true;
+            StartCoroutine(WaitingTime());
         }
     }
 
@@ -88,7 +91,14 @@ public class Tutorials : MonoBehaviour
             StartCoroutine(NextScene());
     }
 
+    private IEnumerator WaitingTime(){
+        yield return new WaitForSeconds(0.5f);
+        isWait = false;
+    }
+
     private IEnumerator NextScene(){
+
+        PlayerPrefs.SetInt("FirstPlay",0);
         yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackgroundImage,0.25f));
         SceneManager.LoadScene("01.StageSelectScene");
     }

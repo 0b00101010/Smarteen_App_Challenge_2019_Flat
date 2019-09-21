@@ -24,6 +24,9 @@ public class StartSceneManager : MonoBehaviour
     private bool creditOn = false;
     [SerializeField]
     private Sprite[] soundSprite;
+
+    [SerializeField]
+    private Sprite[] laguageSprite;
     private void Start(){
         if(instance == null)
             instance = this;
@@ -98,8 +101,18 @@ public class StartSceneManager : MonoBehaviour
     public void StageSelectScene(){
         // Debug.Log("SceneLoad");
         blackImage.gameObject.SetActive(true);
-        StartCoroutine(StageSelectSceneLoad());
+        if(PlayerPrefs.GetInt("FirstPlay").Equals(0))
+            StartCoroutine(StageSelectSceneLoad());
+        else
+            StartCoroutine(Tutorial());
+            
+        
 
+    }
+
+    private IEnumerator Tutorial(){
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
+        SceneManager.LoadScene("Tutorials");
     }
 
     private IEnumerator StageSelectSceneLoad(){
@@ -149,12 +162,12 @@ public class StartSceneManager : MonoBehaviour
 
         if(GameManager.instance.LaguageCord.Equals(0)){
             GameManager.instance.LaguageCord = 1;
-
-            // Button Setting
+            languageButton.image.sprite = laguageSprite[1];
+            
         }
         else{ 
             GameManager.instance.LaguageCord = 0;
-
+            languageButton.image.sprite = laguageSprite[0];
             // Button Setting
         }
     }
@@ -162,6 +175,10 @@ public class StartSceneManager : MonoBehaviour
     public void Credit(){
         creditImage.gameObject.SetActive(true);
         creditOn = true;
+    }
+
+    public void Reset(){
+        GameManager.instance.ClearAllKey();
     }
 
     private void OnDrawGizmos() {

@@ -173,6 +173,9 @@ public class MapPhasing : MonoBehaviour
                 createdObject.SetActive(false);          
             return;
             
+            case "Boost":
+            break;
+
             default : 
                 objectIndex = -1;
             break;

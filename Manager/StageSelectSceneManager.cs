@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class StageSelectSceneManager : MonoBehaviour
 {
     [SerializeField]
@@ -55,11 +56,21 @@ public class StageSelectSceneManager : MonoBehaviour
             SelectStage++;
             StartCoroutine(CanvasWait());
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+            StartCoroutine(ReturnStartScene());
     }
     
     private IEnumerator CanvasWait(){
         yield return new WaitForSeconds(0.25f);
         isMove = false;
+    }
+
+    public IEnumerator ReturnStartScene(){
+        blackBackground.gameObject.SetActive(true);
+        yield return StartCoroutine(GameManager.instance.IFadeIn(blackBackground,0.25f));
+        SceneManager.LoadScene("00.StartScene");
+
     }
 
     public IEnumerator FadeIn(){

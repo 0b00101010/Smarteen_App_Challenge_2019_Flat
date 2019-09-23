@@ -56,7 +56,9 @@ public class StartSceneManager : MonoBehaviour
             CastRay();
         }
 
-   
+        if(Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+
         // #endif
 
         // #if UNITY_ANDROID
@@ -133,6 +135,19 @@ public class StartSceneManager : MonoBehaviour
     public void SettingButton(){
         settingCanvas.gameObject.SetActive(true);
     }
+
+    public void OnFaceBook(){
+        Application.OpenURL("https://www.facebook.com/Flatcubecolor");
+    }
+
+    public void OnYoutube(){
+        Application.OpenURL("https://www.youtube.com/watch?v=JgKX4dBD4fY");
+    }
+    
+    public void ViewTutorial(){
+        
+    }
+
 
     public void BgmOnOff(){
         

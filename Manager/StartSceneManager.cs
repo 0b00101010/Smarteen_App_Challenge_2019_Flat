@@ -26,7 +26,7 @@ public class StartSceneManager : MonoBehaviour
     private Sprite[] soundSprite;
 
     [SerializeField]
-    private Sprite[] laguageSprite;
+    private Sprite[] languageSprite;
     private void Start(){
         if(instance == null)
             instance = this;
@@ -44,9 +44,6 @@ public class StartSceneManager : MonoBehaviour
             
         else
             sfxButton.image.sprite = soundSprite[1];            
-
-        //if(GameManager.instance.LaguageCord.Equals(0))
-        //else   
     }
     private void Update(){
         if(blackImage.color.a < 0.005f)
@@ -106,13 +103,14 @@ public class StartSceneManager : MonoBehaviour
         if(PlayerPrefs.GetInt("FirstPlay").Equals(0))
             StartCoroutine(StageSelectSceneLoad());
         else
-            StartCoroutine(Tutorial());
+            ViewTutorial();
             
         
 
     }
 
     private IEnumerator Tutorial(){
+        blackImage.gameObject.SetActive(true);
         yield return StartCoroutine(GameManager.instance.IFadeIn(blackImage,0.5f));
         SceneManager.LoadScene("Tutorials");
     }
@@ -145,7 +143,7 @@ public class StartSceneManager : MonoBehaviour
     }
     
     public void ViewTutorial(){
-        
+        StartCoroutine(Tutorial());
     }
 
 
@@ -175,14 +173,14 @@ public class StartSceneManager : MonoBehaviour
     public void LanguageChange(){
 
 
-        if(GameManager.instance.LaguageCord.Equals(0)){
-            GameManager.instance.LaguageCord = 1;
-            languageButton.image.sprite = laguageSprite[1];
+        if(GameManager.instance.LanguageCord.Equals(0)){
+            GameManager.instance.LanguageCord = 1;
+            languageButton.image.sprite = languageSprite[1];
             
         }
         else{ 
-            GameManager.instance.LaguageCord = 0;
-            languageButton.image.sprite = laguageSprite[0];
+            GameManager.instance.LanguageCord = 0;
+            languageButton.image.sprite = languageSprite[0];
             // Button Setting
         }
     }

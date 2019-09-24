@@ -31,17 +31,17 @@ public class Tutorials : MonoBehaviour
     private Image fingerImage;
 
     private void Start(){
-        if(GameManager.instance.LaguageCord.Equals(0))
+        if(GameManager.instance.LanguageCord.Equals(0))
             TutorialKor();    
-        else if (GameManager.instance.LaguageCord.Equals(1))
+        else if (GameManager.instance.LanguageCord.Equals(1))
             TutorialEng();
     }
 
     private void Update(){
         if((GameManager.instance.touchManager.IsTouch || Input.GetMouseButtonDown(0)) && !isWait){
-            if(GameManager.instance.LaguageCord.Equals(0))
+            if(GameManager.instance.LanguageCord.Equals(0))
                 TutorialKor();    
-            else if (GameManager.instance.LaguageCord.Equals(1))
+            else if (GameManager.instance.LanguageCord.Equals(1))
                 TutorialEng();
 
             isWait = true;

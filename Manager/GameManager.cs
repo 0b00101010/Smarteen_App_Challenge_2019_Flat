@@ -13,13 +13,13 @@ public class GameManager : MonoBehaviour
     public string nextRound;
     public int nextStageNumber;
     
-    private int laguageCord = 0;
+    private int languageCord = 0;
 
-    public int LaguageCord {
-        get => laguageCord; 
+    public int LanguageCord {
+        get => languageCord; 
         set {
-             laguageCord = value;
-             PlayerPrefs.SetInt("LaguageCord",laguageCord); 
+             languageCord = value;
+             PlayerPrefs.SetInt("LanguageCord",languageCord); 
             }
         }
 
@@ -50,10 +50,11 @@ public class GameManager : MonoBehaviour
         else
             star = PlayerPrefs.GetInt("Star");    
                     
-        if(!PlayerPrefs.HasKey("LaguageCord"))
-            LaguageCord = 0;
-        else
-            LaguageCord = PlayerPrefs.GetInt("LaguageCord");
+        if(!PlayerPrefs.HasKey("LanguageCord")){
+            LanguageCordSetting();
+        }else{
+            LanguageCord = PlayerPrefs.GetInt("LanguageCord");
+        }
 
         if(!PlayerPrefs.HasKey("FirstPlay"))
             PlayerPrefs.SetInt("FirstPlay",1);
@@ -74,8 +75,21 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("FirstPlay",1);
         PlayerPrefs.SetString("BGM","true");
         PlayerPrefs.SetString("SFX","true");
+
+        
     }
-    
+
+    private void LanguageCordSetting(){
+        switch(Application.systemLanguage){
+            case SystemLanguage.Korean:
+                LanguageCord = 0; 
+            break;
+            default:
+                LanguageCord = 1;
+            break;
+        }
+    }
+
     private void Update()
     {
         touchManager.ProcessMobileInput();

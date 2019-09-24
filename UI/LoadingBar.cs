@@ -44,9 +44,9 @@ public class LoadingBar : MonoBehaviour
         cubePosition = cubeImage.transform.position;
         LoadingStart();
 
-        if(GameManager.instance.LaguageCord.Equals(0))
+        if(GameManager.instance.LanguageCord.Equals(0))
             tipImage.sprite = tipsKor[Random.Range(0,tipsKor.Length)];
-        else if(GameManager.instance.LaguageCord.Equals(1))
+        else if(GameManager.instance.LanguageCord.Equals(1))
             tipImage.sprite = tipsEng[Random.Range(0,tipsEng.Length)];
     }
 

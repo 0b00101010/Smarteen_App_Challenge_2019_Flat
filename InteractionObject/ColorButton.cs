@@ -56,6 +56,8 @@ public class ColorButton : InteractionObject
 
     private IEnumerator CollisionWait()
     {
+        // FIXME : 코루틴을 사용하면 가비지 컬렉터가 생성되서 게임이 느려짐,
+        //         변경 필요
         yield return new WaitForSeconds(0.35f);
         isCollision = false;
     }

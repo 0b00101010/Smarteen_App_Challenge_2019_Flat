@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+
 public class ColorButton : InteractionObject
 {
-  
     [Header("Walls")]
     [SerializeField]
     private List<GameObject> walls = new List<GameObject>();
@@ -61,14 +61,6 @@ public class ColorButton : InteractionObject
         yield return new WaitForSeconds(0.35f);
         isCollision = false;
     }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    otherObjectColor = GetColorIndex();
-    //    if (otherObjectColor != -1)
-    //        Interaction();
-    //}
-
 
     [Button("Interaction")]
     protected override void Interaction()

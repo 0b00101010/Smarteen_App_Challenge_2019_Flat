@@ -27,7 +27,7 @@ public class Spike : InteractionObject
 
     private IEnumerator CollisionWait()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return CoroutineManager.WaitSeconds(0.1f);        
         isCollision = false;
     }
 

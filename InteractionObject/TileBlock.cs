@@ -27,7 +27,6 @@ public class TileBlock : MonoBehaviour
         Ray ray = new Ray();
         Vector3[] rayDirections = {Vector3.forward, Vector3.back, Vector3.left, Vector3.right};
         RaycastHit hit;
-        var waitingTime = new WaitForSeconds(0.15f);
 
         ray.origin = gameObject.transform.position;
         
@@ -38,10 +37,10 @@ public class TileBlock : MonoBehaviour
             if(Physics.Raycast(ray.origin,ray.direction,out hit,Mathf.Infinity)){
                 if(hit.collider != null && hit.collider.CompareTag("Tile") && hit.collider.GetComponent<TileBlock>().NowColor != colorIndex){
                     hit.collider.GetComponent<TileBlock>().ChangeMaterials(colorIndex);
-                    yield return waitingTime;
+                    yield return CoroutineManager.WaitSeconds(0.15f);        
                 }
             }
-            yield return null;
+            yield return CoroutineManager.WaitUpdate;
         }
     }
 }

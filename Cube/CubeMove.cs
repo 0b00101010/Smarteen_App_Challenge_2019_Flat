@@ -108,7 +108,7 @@ public class CubeMove : MonoBehaviour{
                 // else
                 //     gameObject.transform.Translate(downVector);
                 
-                yield return null;
+                yield return CoroutineManager.WaitUpdate;
             }
             isMove = false;
             GameManager.instance.soundManager.SFXOneShot(moveSfx);

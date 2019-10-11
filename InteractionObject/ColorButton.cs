@@ -58,7 +58,7 @@ public class ColorButton : InteractionObject
     {
         // FIXME : 코루틴을 사용하면 가비지 컬렉터가 생성되서 게임이 느려짐,
         //         변경 필요, Dictinary를 사용해서 코루틴을 관리해주는 스크립트 작성하기
-        yield return new WaitForSeconds(0.35f);
+        yield return CoroutineManager.WaitSeconds(0.25f);
         isCollision = false;
         
     }

@@ -55,7 +55,7 @@ public class Tutorials : MonoBehaviour
             for(int i = 0; i < 30; i++){
                 fingerImage.transform.position = Vector2.Lerp(fingerPositions[0].position, fingerPositions[1].position, (float)i / 30.0f);
                 Debug.Log(((float)i/30.0f));
-                yield return new WaitForSeconds(0.02f);
+                yield return CoroutineManager.WaitSeconds(0.02f);
             }
             
             particle.gameObject.transform.position = fingerImage.transform.position;
@@ -66,7 +66,7 @@ public class Tutorials : MonoBehaviour
             for(int i = 0; i < 30; i++){
                 fingerImage.transform.position = Vector2.Lerp(fingerPositions[1].position, fingerPositions[2].position, (float)i / 30.0f);
                 Debug.Log(((float)i/30.0f));
-                yield return new WaitForSeconds(0.02f);
+                yield return CoroutineManager.WaitSeconds(0.02f);
             }
             particle.gameObject.transform.position = fingerImage.transform.position;
             particle.Play();
@@ -92,7 +92,7 @@ public class Tutorials : MonoBehaviour
     }
 
     private IEnumerator WaitingTime(){
-        yield return new WaitForSeconds(0.5f);
+        yield return CoroutineManager.WaitSeconds(0.5f);
         isWait = false;
     }
 

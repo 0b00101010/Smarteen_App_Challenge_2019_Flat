@@ -1,0 +1,17 @@
+StageNumber:11
+StageType:Original
+Limit:Time/20
+Mission:MoveCount/30
+Theme:2
+-
+0,0,0,0,0,0,0
+0,1,1,1,1,1,0
+0,1,1,0,0,1,0
+0,1,1,0,0,1,0
+0,1,1,1,1,1,0
+0,0,0,0,0,0,0
+-
+0_Button,0,0,0,Start
+0,0,0,0,0
+0_Wall,0_Wall,0,0,4_Wall
+4_Button,0_Wall,0,4_Wall,2_Portal

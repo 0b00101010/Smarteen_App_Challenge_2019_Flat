@@ -1,0 +1,11 @@
+StageNumber:0
+StageType:Original
+Limit:None
+Mission:None
+Theme:0
+-
+0,0,0,0,0,0,0,0
+0,1,1,1,1,1,0,0
+0,0,0,0,0,0,0,0
+-
+Start,0,0,0,0_Portal

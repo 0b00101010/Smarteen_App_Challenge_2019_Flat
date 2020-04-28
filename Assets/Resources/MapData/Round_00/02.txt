@@ -1,0 +1,13 @@
+StageNumber:2
+StageType:Original
+Limit:MoveCount/20
+Mission:Time/15
+Theme:0
+-
+0,0,0,0,0,0,0
+0,1,1,1,1,1,0
+0,1,1,1,1,1,0
+0,0,0,0,0,0,0
+-
+0,0,0,0_Spike,0
+Start,0,0,2_Spike,5_Portal

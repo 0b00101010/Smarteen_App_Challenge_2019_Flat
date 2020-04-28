@@ -57,7 +57,7 @@ public class Boost : InteractionObject
 
     protected override void Interaction(){
         
-        
+        // TODO : 부스트가 바라보는 방향으로 큐브를 옮김
         base.Interaction();
     }
 

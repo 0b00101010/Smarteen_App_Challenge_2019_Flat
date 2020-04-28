@@ -271,21 +271,20 @@ public class StageManager : MonoBehaviour
             for(int i = 0; i < 10; i++){
                 themeColorImage.color = new Color(themeColorImage.color.r, themeColorImage.color.g, themeColorImage.color.b, themeColorImage.color.a - 0.025f);
                 themeAdditionImage.color = new Color(themeAdditionImage.color.r,themeAdditionImage.color.g,themeAdditionImage.color.b,themeAdditionImage.color.a - 0.1f);
-                yield return waitingTime;
+                yield return CoroutineManager.WaitSeconds(0.1f);
             }   
 
             for(int i = 0; i < 10; i++){
                 themeColorImage.color = new Color(themeColorImage.color.r, themeColorImage.color.g, themeColorImage.color.b, themeColorImage.color.a + 0.025f);
                 themeAdditionImage.color = new Color(themeAdditionImage.color.r,themeAdditionImage.color.g,themeAdditionImage.color.b,themeAdditionImage.color.a + 0.1f);
-                yield return waitingTime;
+                yield return CoroutineManager.WaitSeconds(0.1f);
             }     
 
-            yield return repeatDelay;
+            yield return CoroutineManager.WaitSeconds(2.5f);
         }
     }
 
     private IEnumerator GameTimer(){
-        var waitingTime = new WaitForSecondsRealtime(0.02f);
         
         while(true){
             floatTimer -= Time.deltaTime;
@@ -306,7 +305,7 @@ public class StageManager : MonoBehaviour
                 break;
             }
             
-            yield return waitingTime;
+            yield return CoroutineManager.WaitSeconds(0.02f);
         }
     }
 
